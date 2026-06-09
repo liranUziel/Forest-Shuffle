@@ -1,0 +1,61 @@
+{
+  "trees": {
+    "silver_birch": { "name": "Silver Birch", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 1 },
+    "douglas_fir": { "name": "Douglas Fir", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 5 },
+    "horse_chestnut": { "name": "Horse Chestnut", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 0 },
+    "linden": { "name": "Linden", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 1 },
+    "oak": { "name": "Oak", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 0 },
+    "sycamore": { "name": "Sycamore", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 1 },
+    "beech": { "name": "Beech", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 0 },
+    "alpine_larch": { "name": "Alpine Larch", "symbols": ["tree"], "ruleType": "FLAT_POINT", "points": 3 }
+  },
+  "top": {
+    "chaffinch": { "name": "Chaffinch", "symbols": ["bird"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "bird", "multiplier": 2 },
+    "goshawk": { "name": "Goshawk", "symbols": ["bird"], "ruleType": "MULTIPLY_CARDS_ON_OWN_TREE", "multiplier": 3 },
+    "purple_emperor": { "name": "Purple Emperor", "symbols": ["butterfly"], "ruleType": "FLAT_POINT", "points": 0 },
+    "camberwell_beauty": { "name": "Camberwell Beauty", "symbols": ["butterfly"], "ruleType": "FLAT_POINT", "points": 0 },
+    "large_tortoiseshell": { "name": "Large Tortoiseshell", "symbols": ["butterfly"], "ruleType": "FLAT_POINT", "points": 0 },
+    "peacock_butterfly": { "name": "Peacock Butterfly", "symbols": ["butterfly"], "ruleType": "FLAT_POINT", "points": 0 },
+    "silver_washed_fritillary": { "name": "Silver-Washed Fritillary", "symbols": ["butterfly"], "ruleType": "FLAT_POINT", "points": 0 },
+    "great_spotted_woodpecker": { "name": "Great Spotted Woodpecker", "symbols": ["bird"], "ruleType": "FLAT_POINT", "points": 0 },
+    "bullfinch": { "name": "Bullfinch", "symbols": ["bird"], "ruleType": "MULTIPLY_ALL_CARDS", "multiplier": 2 },
+    "tawny_owl": { "name": "Tawny Owl", "symbols": ["bird"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "deer", "multiplier": 5 },
+    "black_woodpecker": { "name": "Black Woodpecker", "symbols": ["bird"], "ruleType": "FLAT_POINT", "points": 0 },
+    "eurasian_jay": { "name": "Eurasian Jay", "symbols": ["bird"], "ruleType": "FLAT_POINT", "points": 0 },
+    "northern_goshawk": { "name": "Northern Goshawk", "symbols": ["bird"], "ruleType": "FLAT_POINT", "points": 0 },
+    "song_thrush": { "name": "Song Thrush", "symbols": ["bird"], "ruleType": "FLAT_POINT", "points": 0 }
+  },
+  "bottom": {
+    "common_toad": { "name": "Common Toad", "symbols": ["amphibian"], "ruleType": "FLAT_POINT", "points": 5 },
+    "wild_boar": { "name": "Wild Boar", "symbols": ["paw"], "ruleType": "CONDITIONAL_TREE_PRESENCE", "targetTree": "sapling", "pointsIfTrue": 10, "pointsIfFalse": 0 },
+    "blackberries": { "name": "Blackberries", "symbols": ["plant"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "plant", "multiplier": 2 },
+    "tree_fern": { "name": "Tree Fern", "symbols": ["plant"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "amphibian", "multiplier": 4 },
+    "fly_agaric": { "name": "Fly Agaric", "symbols": ["mushroom"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "silver_birch", "multiplier": 3 },
+    "chanterelle": { "name": "Chanterelle", "symbols": ["mushroom"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "oak", "multiplier": 5 },
+    "penny_bun": { "name": "Penny Bun", "symbols": ["mushroom"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "horse_chestnut", "multiplier": 4 },
+    "parasol_mushroom": { "name": "Parasol Mushroom", "symbols": ["mushroom"], "ruleType": "FLAT_POINT", "points": 0 },
+    "wood_ant": { "name": "Wood Ant", "symbols": ["insect"], "ruleType": "FLAT_POINT", "points": 0 },
+    "fire_salamander": { "name": "Fire Salamander", "symbols": ["amphibian"], "ruleType": "FLAT_POINT", "points": 0 },
+    "hedgehog": { "name": "Hedgehog", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "snail": { "name": "Snail", "symbols": ["insect"], "ruleType": "FLAT_POINT", "points": 0 }
+  },
+  "sides": {
+    "roe_deer": { "name": "Roe Deer", "symbols": ["deer"], "ruleType": "FLAT_POINT", "points": 3 },
+    "fallow_deer": { "name": "Fallow Deer", "symbols": ["deer"], "ruleType": "FLAT_POINT", "points": 3 },
+    "red_deer": { "name": "Red Deer", "symbols": ["deer"], "ruleType": "FLAT_POINT", "points": 3 },
+    "brown_hare": { "name": "Brown Hare", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 10 },
+    "lynx": { "name": "Lynx", "symbols": ["paw"], "ruleType": "MULTIPLY_SPECIFIC_CARD", "targetCardId": "roe_deer", "multiplier": 10 },
+    "red_squirrel": { "name": "Red Squirrel", "symbols": ["paw"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "oak", "multiplier": 2 },
+    "wolf": { "name": "Wolf", "symbols": ["paw"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "deer", "multiplier": 5 },
+    "red_fox": { "name": "Red Fox", "symbols": ["paw"], "ruleType": "MULTIPLY_SYMBOL", "targetSymbol": "paw", "multiplier": 2 },
+    "beech_marten": { "name": "Beech Marten", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "violet_carpenter_bee": { "name": "Violet Carpenter Bee", "symbols": ["insect"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "beech", "multiplier": 3 },
+    "stag_beetle": { "name": "Stag Beetle", "symbols": ["insect"], "ruleType": "MULTIPLY_TREE_SPECIES", "targetTree": "oak", "multiplier": 5 },
+    "badger": { "name": "Badger", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "pine_marten": { "name": "Pine Marten", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "european_fat_dormouse": { "name": "European Fat Dormouse", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "wildcat": { "name": "Wildcat", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "bat": { "name": "Bat", "symbols": ["paw"], "ruleType": "FLAT_POINT", "points": 0 },
+    "firefly": { "name": "Firefly", "symbols": ["insect"], "ruleType": "FLAT_POINT", "points": 0 }
+  }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Shuffle Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-controls">
+            <div class="brand-block">
+                <h1>Forest Shuffle Engine</h1>
+                <p class="brand-subtitle">Build your forest, track every point.</p>
+            </div>
+            <button id="clear-save-btn" class="danger-btn">Reset Board</button>
+        </div>
+        <div class="header-right">
+            <div id="total-score-display">Total Score: 0</div>
+        </div>
+    </header>
+    
+    <main id="forest-container"></main>
+
+    <div id="card-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Select Card</h2>
+                <button id="close-modal">&times;</button>
+            </div>
+            <input type="text" id="card-search" placeholder="Search cards by name or color...">
+            <div id="modal-card-list" class="card-list"></div>
+        </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>

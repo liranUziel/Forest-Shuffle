@@ -1,0 +1,1704 @@
+{
+    "deck": [
+        {
+            "filename": "beech.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Beech",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "birch.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Birch",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "douglas_fir.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Douglas Fir",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "horse_chestnut.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Horse Chestnut",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "linden.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Linden",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "oak.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Oak",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "silver_fir.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Silver Fir",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "sycamore.png",
+            "split_type": "trees",
+            "content": {
+                "tree": {
+                    "name": "Sycamore",
+                    "colors": []
+                }
+            }
+        },
+        {
+            "filename": "barbastelle_bat_-_beech_marten.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Barbastelle Bat",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Beech Marten",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "barbastelle_bat_-_wild_boar.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Barbastelle Bat",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "right": {
+                    "name": "Wild Boar",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "beacstein's_bat_-_wolf.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Beacstein'S Bat",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "right": {
+                    "name": "Wolf",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "bechstein's_bat_-_european_fat_dormouse.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Bechstein'S Bat",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "right": {
+                    "name": "European Fat Dormouse",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "beech_marten_-_bechstein's_bat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Beech Marten",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "right": {
+                    "name": "Bechstein'S Bat",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "beech_marten_-_brown_bear.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Beech Marten",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "Brown Bear",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "brown_bear_-_raccoon.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Brown Bear",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Raccoon",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "brown_Long eared_bat_-_european_badger.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Brown Long-Eared Bat",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "European Badger",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "brown_long eared_bat_-_european_hare.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Brown Long-Eared Bat",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "European Hare",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_badger-gnat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Badger",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "right": {
+                    "name": "Gnat",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_badger_-_fallow_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Badger",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "right": {
+                    "name": "Fallow Deer",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_fat_dormouse-brown_long eared_bat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Fat Dormouse",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Brown Long-Eared Bat",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_fat_dormouse_-_barbastelle_bat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Fat Dormouse",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "right": {
+                    "name": "Barbastelle Bat",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_hare_-_beech_marten.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Hare",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "right": {
+                    "name": "Beech Marten",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_hare_-_european_badger.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Hare",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "European Badger",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_hare_-_greater_horse shoe_bat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Hare",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "right": {
+                    "name": "Greater Horse-Shoe Bat",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_hare_-_red_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Hare",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "right": {
+                    "name": "Red Deer",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "european_hare_-_red_fox.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "European Hare",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Red Fox",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "fallow_deer_-_roe_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Fallow Deer",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Roe Deer",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "fallow_deer_-_wild_boar.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Fallow Deer",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Wild Boar",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "gnat_-_violet_carpenter_bee.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Gnat",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "right": {
+                    "name": "Violet Carpenter Bee",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "greater_horse shoe_bat_-_european_fat_dormouse.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Greater Horse-Shoe Bat",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "right": {
+                    "name": "European Fat Dormouse",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "lynx_-_european_hare.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Lynx",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "right": {
+                    "name": "European Hare",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "lynx_-_raccoon.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Lynx",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "right": {
+                    "name": "Raccoon",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "lynx_-_red_fox.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Lynx",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "right": {
+                    "name": "Red Fox",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "raccoon-european_hare.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Raccoon",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "right": {
+                    "name": "European Hare",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "raccoon-roe_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Raccoon",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Roe Deer",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_deer_-_brown_bear.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Red Deer",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Brown Bear",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_deer_-_fallow_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Red Deer",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Fallow Deer",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_fox_-_squeaker.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Red Fox",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "right": {
+                    "name": "Squeaker",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_fox_-_violet_carpenter_bee.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Red Fox",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Violet Carpenter Bee",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_fox_-_wolf.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Red Fox",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Wolf",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "roe_deer_-_lynx.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Roe Deer",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "Lynx",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "roe_deer_-_squeaker.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Roe Deer",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "right": {
+                    "name": "Squeaker",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "squeaker_-_lynx.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Squeaker",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "right": {
+                    "name": "Lynx",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "squeaker_-_red_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Squeaker",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "right": {
+                    "name": "Red Deer",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "violet_carpenter_bee_-_european_hare.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Violet Carpenter Bee",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "right": {
+                    "name": "European Hare",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "violet_carpenter_bee_-_lynx.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Violet Carpenter Bee",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "right": {
+                    "name": "Lynx",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "wild_boar_-_beech_marten.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Wild Boar",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "right": {
+                    "name": "Beech Marten",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "wild_boar_-_european_hare.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Wild Boar",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "European Hare",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "wild_boar_-_roe_deer.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Wild Boar",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "Roe Deer",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "wolf-gnat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Wolf",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "right": {
+                    "name": "Gnat",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "wolf-greater_horse shoe_bat.png",
+            "split_type": "left_right",
+            "content": {
+                "left": {
+                    "name": "Wolf",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "right": {
+                    "name": "Greater Horse-Shoe Bat",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "bullfinch-tree_frog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Bullfinch",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Tree Frog",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "bullfinch_-_hedgehog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Bullfinch",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Hedgehog",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "bullfinch_-_parasol_mushroom.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Bullfinch",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Parasol Mushroom",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "bullfinch_-_tree_ferns.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Bullfinch",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Tree Ferns",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "camberwell_beauty-tree_frog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Camberwell Beauty",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Tree Frog",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "camberwell_beauty_-_chanterelle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Camberwell Beauty",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "bottom": {
+                    "name": "Chanterelle",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "camberwell_beauty_-_fireflies.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Camberwell Beauty",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fireflies",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "camberwell_beauty_-_pond_turtle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Camberwell Beauty",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Pond Turtle",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "chaffinch-common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Chaffinch",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "chaffinch-parasol_mushroom.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Chaffinch",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Parasol Mushroom",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "chaffinch-stag_beetle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Chaffinch",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Stag Beetle",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "chaffinch_-_wood_ant.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Chaffinch",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wood Ant",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "eurasian_jay_-_fireflies.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Eurasian Jay",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fireflies",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "eurasian_jay_-_fly_agaric.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Eurasian Jay",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fly Agaric",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "eurasian_jay_-_tree_ferns.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Eurasian Jay",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Tree Ferns",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "goshawk-common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Goshawk",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "goshawk_-_hedgehog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Goshawk",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Hedgehog",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "goshawk_-_moss.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Goshawk",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Moss",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "goshawk_-_wood_ant.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Goshawk",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wood Ant",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "great_spotted_woodpecker-common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Great Spotted Woodpecker",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "great_spotted_woodpecker-penny_bun.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Great Spotted Woodpecker",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "bottom": {
+                    "name": "Penny Bun",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "great_spotted_woodpecker-wood_ant.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Great Spotted Woodpecker",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wood Ant",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "great_spotted_woodpecker_-_wild_strawberries.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Great Spotted Woodpecker",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wild Strawberries",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "large_tortoiseshell-blackberries.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Large Tortoiseshell",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Blackberries",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "large_tortoiseshell-fire_salamander.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Large Tortoiseshell",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fire Salamander",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "large_tortoiseshell-mole.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Large Tortoiseshell",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Mole",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "large_tortoiseshell_-_mole.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Large Tortoiseshell",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Mole",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "peacock_butterfly-fireflies.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Peacock Butterfly",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fireflies",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "peacock_butterfly-hedgehog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Peacock Butterfly",
+                    "colors": [
+                        "blue"
+                    ]
+                },
+                "bottom": {
+                    "name": "Hedgehog",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "peacock_butterfly_-_chanterelle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Peacock Butterfly",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "Chanterelle",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "peacock_butterfly_-_common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Peacock Butterfly",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "purple_emperor_-_fly_agaric.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Purple Emperor",
+                    "colors": [
+                        "yellow"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fly Agaric",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "purple_emperor_-_moss.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Purple Emperor",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "bottom": {
+                    "name": "Moss",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "purple_emperor_-_pond_turtle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Purple Emperor",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "bottom": {
+                    "name": "Pond Turtle",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "purple_emperor_-_tree_frog.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Purple Emperor",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Tree Frog",
+                    "colors": [
+                        "brown"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_squirrel_-_common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Red Squirrel",
+                    "colors": [
+                        "silver"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_squirrel_-_fireflies.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Red Squirrel",
+                    "colors": [
+                        "orange"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fireflies",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_squirrel_-_fire_salamander.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Red Squirrel",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fire Salamander",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "red_squirrel_-_wild_strawberries.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Red Squirrel",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wild Strawberries",
+                    "colors": [
+                        "lime"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "silver washed_fritillary-blackberries.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Silver-Washed Fritillary",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "Blackberries",
+                    "colors": [
+                        "green"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "silver washed_fritillary-fire_salamander.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Silver-Washed Fritillary",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "Fire Salamander",
+                    "colors": [
+                        "orange"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "silver washed_fritillary-moss.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Silver-Washed Fritillary",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Moss",
+                    "colors": [
+                        "yellow"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "silver washed_fritillary.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Silver-Washed Fritillary",
+                    "colors": [
+                        "brown"
+                    ]
+                },
+                "bottom": {
+                    "name": "",
+                    "colors": [
+                        "blue"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "tawny_owl_-_common_toad.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Tawny Owl",
+                    "colors": [
+                        "red"
+                    ]
+                },
+                "bottom": {
+                    "name": "Common Toad",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "tawny_owl_-_penny_bun.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Tawny Owl",
+                    "colors": [
+                        "lime"
+                    ]
+                },
+                "bottom": {
+                    "name": "Penny Bun",
+                    "colors": [
+                        "silver"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "tawny_owl_-_stag_beetle.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Tawny Owl",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Stag Beetle",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        },
+        {
+            "filename": "tawny_owl_-_wild_strawberries.png",
+            "split_type": "top_bottom",
+            "content": {
+                "top": {
+                    "name": "Tawny Owl",
+                    "colors": [
+                        "green"
+                    ]
+                },
+                "bottom": {
+                    "name": "Wild Strawberries",
+                    "colors": [
+                        "red"
+                    ]
+                }
+            }
+        }
+    ]
+}
