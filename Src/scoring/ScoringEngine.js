@@ -1176,13 +1176,37 @@ export const ScoringEngine = {
             return scoringFunction(cardInput, boardObject, currentTree, Helpers, this);
         }
 
+        if (this.getButterflyCardIds().has(cardId)) {
+            const counts = this.evaluate_top_bottom(boardObject).counts;
+            const butterflyCount = counts.butterfly || 0;
+            const setScore = this.getButterflySetScore(butterflyCount);
+            const leaderTreeId = this.getButterflyLeaderTreeId(boardObject);
+            const isLeader = !!(currentTree && currentTree.id && currentTree.id === leaderTreeId);
+
+            if (isLeader) {
+                return {
+                    points: setScore,
+                    calculated: true,
+                    detail: `Top/Bottom case: Butterfly set ${butterflyCount} -> ${setScore} (counted once)`,
+                    ruleType: 'TOP_BOTTOM_CASE'
+                };
+            }
+
+            return {
+                points: 0,
+                calculated: true,
+                detail: `Top/Bottom case: Butterfly set handled by one card (${butterflyCount} -> ${setScore})`,
+                ruleType: 'TOP_BOTTOM_CASE'
+            };
+        }
+
         return {
             points: 0,
             calculated: false,
             detail: `Top/Bottom case not enabled: ${cardId}`,
             ruleType: 'TOP_BOTTOM_CASE'
         };
-    },git 
+    },
 
     evaluateDetailed(cardInput, forestState, currentTree) {
         const cardName = typeof cardInput === 'string' ? cardInput : (cardInput && cardInput.name);
