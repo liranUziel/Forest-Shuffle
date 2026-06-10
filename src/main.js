@@ -2,6 +2,8 @@
 import { ForestState } from './state/ForestState.js';
 import { UIManager } from './ui/UIManager.js';
 import { ScoringEngine } from './scoring/ScoringEngine.js';
+import { triggerScoringTest } from './demo/debugTools.js';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Main Module is running! Booting up...');
