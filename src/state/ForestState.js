@@ -20,12 +20,15 @@ export class ForestState {
         this.lastTreeScores = {};
         this.lastTreeSpeciesScores = {};
     }
+    
     subscribe(listener) { this.listeners.push(listener); }
+    
     notify() { 
         localStorage.setItem('forestShuffleSave', JSON.stringify(this.trees));
         localStorage.setItem('forestShuffleCaveCount', String(this.caveCount));
         this.listeners.forEach(listener => listener(this.trees, this.calculateTotalScore())); 
     }
+    
     resetGame() {
         if(confirm("Are you sure you want to clear the board?")) {
             this.trees = [];
@@ -33,24 +36,58 @@ export class ForestState {
             this.notify();
         }
     }
+    
+    createTree() {
+        const newTree = { 
+            id: crypto.randomUUID(), 
+            species: null, 
+            top: [], 
+            bottom: [], 
+            left: [], 
+            right: [] 
+        };
+        this.trees.push(newTree);
+        this.notify();
+        return newTree.id; 
+    }
+    
     addTree() { this.trees.push({ id: crypto.randomUUID(), species: null, top: [], bottom: [], left: [], right: [] }); this.notify(); }
-    addCardToCave() { this.caveCount += 1; this.notify(); }
-    removeCardFromCave() {
-        this.caveCount = Math.max(0, (this.caveCount || 0) - 1);
+    
+    // NEW CAVE MATH LOGIC
+    updateCaveScore(amount) {
+        this.caveCount = Math.max(0, (this.caveCount || 0) + amount);
         this.notify();
     }
+
     removeTree(treeId) {
         this.trees = this.trees.filter(t => t.id !== treeId);
         this.notify();
     }
-    addCardToSlot(treeId, slot, cardData) {
+    
+    /**
+     * Adds a card to a tree slot.
+     * @param {boolean} [allowStack=false]  Pass true for cards that stack
+     *   (CommonToad second copy, EuropeanHare extras). Without this flag the
+     *   method rejects if the slot is already occupied.
+     */
+    addCardToSlot(treeId, slot, cardData, allowStack = false) {
         const tree = this.trees.find(t => t.id === treeId);
-        if (!tree) return;
-        const cardWithAnimationState = { ...cardData, playedAnimation: false };
-        if (slot === 'species') tree.species = cardWithAnimationState;
-        else tree[slot].push(cardWithAnimationState);
+        if (!tree) return false;
+
+        const card = { ...cardData, playedAnimation: false };
+
+        if (slot === 'species') {
+            if (tree.species !== null) return false;
+            tree.species = card;
+        } else {
+            if (!allowStack && tree[slot].length > 0) return false;
+            tree[slot].push(card);
+        }
+
         this.notify();
+        return true;
     }
+    
     removeCardFromSlot(treeId, slot, index) {
         const tree = this.trees.find(t => t.id === treeId);
         if (!tree) return;
@@ -58,6 +95,7 @@ export class ForestState {
         else tree[slot].splice(index, 1);
         this.notify();
     }
+    
     updateSpeciesCardMeta(treeId, patch) {
         const tree = this.trees.find(t => t.id === treeId);
         if (!tree || !tree.species) return;
@@ -78,32 +116,44 @@ export class ForestState {
 
         if (tree.species && tree.species.name) {
             const speciesScore = ScoringEngine.evaluateDetailed(tree.species, this.trees, tree);
-            total += speciesScore.points;
+            const safePoints = Number(speciesScore.points) || 0; 
+            total += safePoints;
+            
             breakdown.push({
                 treeId: tree.id,
                 slot: 'species',
                 cardName: speciesScore.cardName,
-                points: speciesScore.points,
+                points: safePoints, 
                 calculated: speciesScore.calculated,
-                detail: speciesScore.detail,
+                detail: speciesScore.detail || 'Missing detail',
                 ruleType: speciesScore.ruleType
             });
+            
+            if (speciesScore.points === undefined) {
+                console.warn(`⚠️ Warning: The scoring file for ${speciesScore.cardName} is returning an invalid object.`);
+            }
         }
 
         ['top', 'bottom', 'left', 'right'].forEach(slot => {
             tree[slot].forEach(cardData => {
                 if (!cardData || !cardData.name) return;
                 const cardScore = ScoringEngine.evaluateDetailed(cardData, this.trees, tree);
-                total += cardScore.points;
+                const safePoints = Number(cardScore.points) || 0;
+                total += safePoints;
+                
                 breakdown.push({
                     treeId: tree.id,
                     slot,
                     cardName: cardScore.cardName,
-                    points: cardScore.points,
+                    points: safePoints,
                     calculated: cardScore.calculated,
-                    detail: cardScore.detail,
+                    detail: cardScore.detail || 'Missing detail',
                     ruleType: cardScore.ruleType
                 });
+
+                if (cardScore.points === undefined) {
+                    console.warn(`⚠️ Warning: The scoring file for ${cardScore.cardName} is returning an invalid object.`);
+                }
             });
         });
 

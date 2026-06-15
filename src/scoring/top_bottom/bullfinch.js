@@ -2,10 +2,11 @@
 export const scoreBullfinch = (cardInput, boardObject, currentTree, helpers, engine) => {
     const insectCount = engine.getBullfinchInsectCount(boardObject);
     const points = insectCount * 2;
+    
     return {
-        points,
+        points: points,
         calculated: true,
-        detail: `Top/Bottom case: Bullfinch insects(${insectCount}) x 2 = ${points}`,
+        detail: `Top/Bottom case: Bullfinch (${insectCount} Insects x 2) = ${points} VP`,
         ruleType: 'TOP_BOTTOM_CASE'
     };
 };

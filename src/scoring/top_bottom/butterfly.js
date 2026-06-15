@@ -1,24 +1,25 @@
 // src/scoring/top_bottom/butterfly.js
 export const scoreButterfly = (cardInput, boardObject, currentTree, helpers, engine) => {
-    const counts = engine.evaluate_top_bottom(boardObject).counts;
-    const butterflyCount = counts.butterfly || 0;
-    const setScore = engine.getButterflySetScore(butterflyCount);
-    const leaderTreeId = engine.getButterflyLeaderTreeId(boardObject);
-    const isLeader = !!(currentTree && currentTree.id && currentTree.id === leaderTreeId);
+    const mapping = engine.getButterflySetMapping(boardObject);
+    const cardToSetMap = mapping.cardToSetMap;
+    const setSizes = mapping.setSizes;
+    const setInfo = cardToSetMap.get(cardInput);
 
-    if (isLeader) {
-        return {
-            points: setScore,
-            calculated: true,
-            detail: `Top/Bottom case: Butterfly set ${butterflyCount} -> ${setScore} (counted once)`,
-            ruleType: 'TOP_BOTTOM_CASE'
-        };
+    if (!setInfo) {
+        return { points: 0, calculated: true, detail: 'Butterfly not active', ruleType: 'TOP_BOTTOM_CASE' };
     }
 
+    const setScale = { 0: 0, 1: 0, 2: 3, 3: 6, 4: 12, 5: 20 };
+    const setSize = setSizes[setInfo.setIndex];
+    
+    const points = setInfo.isLeader ? (setScale[setSize] || 0) : 0;
+
     return {
-        points: 0,
+        points: points,
         calculated: true,
-        detail: `Top/Bottom case: Butterfly set handled by one card (${butterflyCount} -> ${setScore})`,
+        detail: setInfo.isLeader 
+            ? `Butterfly Set ${setInfo.setIndex + 1} Leader (${setSize} unique) = ${points} VP`
+            : `Butterfly Set ${setInfo.setIndex + 1} Member (Score handled by Leader)`,
         ruleType: 'TOP_BOTTOM_CASE'
     };
 };

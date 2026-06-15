@@ -1,12 +1,13 @@
-// src/scoring/cards/top_bottom/great_spotted_woodpecker.js
+// src/scoring/top_bottom/great_spotted_woodpecker.js
 export const scoreGreatSpottedWoodpecker = (cardInput, boardObject, currentTree, helpers, engine) => {
-    const hasMost = !!(cardInput && cardInput.hasMost);
+    // Check the boolean flag injected by the UI checkbox
+    const hasMost = cardInput.hasMost === true;
+    const points = hasMost ? 10 : 0;
+
     return {
-        points: hasMost ? 10 : 0,
+        points: points,
         calculated: true,
-        detail: hasMost
-            ? 'Top/Bottom case: Great Spotted Woodpecker (Most) = 10'
-            : 'Top/Bottom case: Great Spotted Woodpecker inactive (Most unchecked)',
+        detail: `Top/Bottom case: Woodpecker (Most Trees: ${hasMost ? 'Yes' : 'No'}) = ${points} VP`,
         ruleType: 'TOP_BOTTOM_CASE'
     };
 };

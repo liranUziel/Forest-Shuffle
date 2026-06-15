@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forest Shuffle Engine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="app-header">
-        <div class="header-controls">
-            <div class="brand-block">
-                <h1>Forest Shuffle Engine</h1>
-                <p class="brand-subtitle">Build your forest, track every point.</p>
-            </div>
-            <button id="clear-save-btn" class="danger-btn">Reset Board</button>
+    <header class="game-header">
+        <div id="total-score-display" class="score-badge">Total Score: 0</div>
+        
+        <!-- Corrected Cave Controls -->
+        <div class="cave-controls">
+            <button id="cave-minus-10" class="cave-btn minus">-10</button>
+            <button id="cave-minus-1" class="cave-btn minus">-1</button>
+            <span id="cave-val" class="cave-badge">Cave: 0</span>
+            <button id="cave-plus-1" class="cave-btn plus">+1</button>
+            <button id="cave-plus-10" class="cave-btn plus">+10</button>
         </div>
-        <div class="header-right">
-            <div id="total-score-display">Total Score: 0</div>
+
+        <div class="action-controls">
+            <button id="clear-save-btn" class="danger-btn">Clear Board</button>
+            <!-- Separate Automa Control Area -->
+            <div id="automa-controls"></div>
         </div>
     </header>
     
@@ -25,13 +30,44 @@
     <div id="card-modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title">Select Card</h2>
+                <h2>Select Card</h2>
                 <button id="close-modal">&times;</button>
             </div>
-            <input type="text" id="card-search" placeholder="Search cards by name or color...">
+            
+            <div class="color-filters" id="modal-color-filters">
+                <label><input type="checkbox" class="color-filter-cb" value="blue"> Blue</label>
+                <label><input type="checkbox" class="color-filter-cb" value="yellow"> Yellow</label>
+                <label><input type="checkbox" class="color-filter-cb" value="green"> Green</label>
+                <label><input type="checkbox" class="color-filter-cb" value="red"> Red</label>
+                <label><input type="checkbox" class="color-filter-cb" value="orange"> Orange</label>
+                <label><input type="checkbox" class="color-filter-cb" value="lime"> Lime</label>
+                <label><input type="checkbox" class="color-filter-cb" value="brown"> Brown</label>
+                <label><input type="checkbox" class="color-filter-cb" value="silver"> Silver</label>
+            </div>
+
+            <input type="text" id="card-search" placeholder="Search cards...">
             <div id="modal-card-list" class="card-list"></div>
         </div>
     </div>
+
+    <!-- Automa Modal -->
+    <div id="automa-modal" class="modal hidden">
+        <div class="modal-content automa-modal-content">
+            <div class="modal-header">
+                <h2>Automa Deck</h2>
+                <span id="deck-count" class="automa-count">-- / -- cards</span>
+                <button id="close-automa">&times;</button>
+            </div>
+            <div class="deck-area">
+                <div class="automa-deck-col">
+                    <div id="deck-pile" class="deck-stack">DRAW</div>
+                    <button id="shuffle-automa" class="automa-shuffle-btn">Shuffle</button>
+                </div>
+                <div id="card-reveal" class="automa-card-reveal hidden"></div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="./src/main.js"></script>
 </body>
 </html>

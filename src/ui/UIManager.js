@@ -1,210 +1,46 @@
-import { ScoringEngine } from "../scoring/ScoringEngine.js";
+/**
+ * UIManager — renders the game board and wires user interactions to state.
+ * Single responsibility: translate ForestState into DOM and delegate user
+ * actions (open modal, remove card, add tree, toggle flags) back to state.
+ */
+
+import { ScoringEngine } from '../scoring/ScoringEngine.js';
+import { CardModal, normalizeCardKey, mapColorNameToHex } from './CardModal.js';
 
 export class UIManager {
+    /**
+     * @param {import('../state/ForestState.js').ForestState} state
+     * @param {string} containerId  — id of the root DOM element for tree cards
+     */
     constructor(state, containerId) {
-        this.state = state;
+        this.state     = state;
         this.container = document.getElementById(containerId);
-        this.modal = document.getElementById('card-modal');
-        this.searchInput = document.getElementById('card-search');
-        this.activeTreeId = null;
-        this.activeSlot = null;
-        this.activeModalMode = 'default';
         this.isScoreBreakdownCollapsed = true;
-        this.setupModalListeners();
-        this.state.subscribe((trees, total) => this.render(trees, total));
-    }
-    setupModalListeners() {
-        document.getElementById('close-modal').addEventListener('click', () => this.closeModal());
-        this.searchInput.addEventListener('input', (e) => this.renderModalList(e.target.value));
-        document.getElementById('clear-save-btn').addEventListener('click', () => this.state.resetGame());
-    }
-    openModal(treeId, slot) { this.activeTreeId = treeId; this.activeSlot = slot; this.activeModalMode = 'default'; this.renderModalList(); this.modal.classList.remove('hidden'); }
-    openCommonToadExtraModal(treeId) { this.activeTreeId = treeId; this.activeSlot = 'bottom'; this.activeModalMode = 'commonToadExtra'; this.renderModalList(); this.modal.classList.remove('hidden'); }
-    openEuropeanHareExtraModal(treeId, slot) { this.activeTreeId = treeId; this.activeSlot = slot; this.activeModalMode = 'europeanHareExtra'; this.renderModalList(); this.modal.classList.remove('hidden'); }
-    closeModal() { this.modal.classList.add('hidden'); this.activeModalMode = 'default'; }
 
-    normalizeCardKey(value) {
-        return String(value || '')
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '_')
-            .replace(/^_+|_+$/g, '');
+        this.modal = new CardModal(state, () => this._getUsedCardFilenames());
+
+        this._setupStaticListeners();
+        state.subscribe((trees, total) => this.render(trees, total));
+        this.render(state.trees ?? [], 0);
     }
 
-    isCommonToadCard(cardData) {
-        if (!cardData) return false;
-        const normalized = this.normalizeCardKey(cardData.cardId || cardData.name);
-        return normalized === 'common_toad';
-    }
+    // ── Static listener setup (once on construction) ──────────────────────
 
-    isEuropeanHareCard(cardData) {
-        if (!cardData) return false;
-        const normalized = this.normalizeCardKey(cardData.cardId || cardData.name);
-        return normalized === 'european_hare';
-    }
+    _setupStaticListeners() {
+        document.getElementById('clear-save-btn')?.addEventListener('click', () => this.state.resetGame());
 
-    getEuropeanHareCount() {
-        let count = 0;
-        this.state.trees.forEach((tree) => {
-            ['left', 'right'].forEach((slot) => {
-                (tree[slot] || []).forEach((card) => {
-                    if (this.isEuropeanHareCard(card)) count += 1;
-                });
-            });
-        });
-        return count;
-    }
-
-    buildSideStackPreviewHtml(cards, slotName) {
-        if (!Array.isArray(cards) || cards.length <= 1) return '';
-        const hiddenCards = cards.slice(0, -1).reverse();
-        const layers = hiddenCards.map((card, index) => {
-            const stackIndex = index + 1;
-            const primaryColor = this.getPrimaryDisplayColor(card, slotName);
-            const normalizedColor = this.normalizeCardKey(primaryColor);
-            const colorChip = normalizedColor
-                ? `<span class="side-stack-color-chip" data-color="${normalizedColor}" title="${primaryColor}"></span>`
-                : '';
-            return `<div class="side-stack-layer-wrap" style="--stack-index:${stackIndex};"><img src="Assetes/Cards/${card.folder}/${card.filename}" class="card-img side-stack-layer split-${slotName}" alt="${card.name}">${colorChip}</div>`;
-        }).join('');
-        return layers ? `<div class="side-stack-preview">${layers}</div>` : '';
-    }
-
-    getSpeciesTreeColor(cardData) {
-        const speciesColorById = {
-            beech: 'green',
-            birch: 'lime',
-            silver_birch: 'lime',
-            oak: 'brown',
-            linden: 'yellow',
-            douglas_fir: 'silver',
-            horse_chestnut: 'orange',
-            silver_fir: 'blue',
-            sycamore: 'red'
+        const caveButtons = {
+            'cave-minus-10': -10, 'cave-minus-1': -1,
+            'cave-plus-1':    +1, 'cave-plus-10': +10,
         };
-        const speciesId = this.normalizeCardKey(cardData && (cardData.cardId || cardData.name));
-        return speciesColorById[speciesId] || '';
-    }
-
-    getFallbackColorByCard(cardData) {
-        const cardId = this.normalizeCardKey(cardData && (cardData.cardId || cardData.name));
-        if (!cardId) return '';
-
-        if (!this.cardFallbackColorsById) {
-            const fallback = {};
-            const register = (name, colors) => {
-                const normalizedName = this.normalizeCardKey(name);
-                if (!normalizedName || !Array.isArray(colors) || colors.length === 0) return;
-                if (!fallback[normalizedName]) fallback[normalizedName] = String(colors[0]);
-            };
-
-            const deck = window.MasterDeck && Array.isArray(window.MasterDeck.deck)
-                ? window.MasterDeck.deck
-                : [];
-
-            deck.forEach((card) => {
-                if (!card || !card.content) return;
-                if (card.split_type === 'left_right') {
-                    register(card.content.left && card.content.left.name, card.content.left && card.content.left.colors);
-                    register(card.content.right && card.content.right.name, card.content.right && card.content.right.colors);
-                } else if (card.split_type === 'top_bottom') {
-                    register(card.content.top && card.content.top.name, card.content.top && card.content.top.colors);
-                    register(card.content.bottom && card.content.bottom.name, card.content.bottom && card.content.bottom.colors);
-                }
-            });
-
-            this.cardFallbackColorsById = fallback;
+        for (const [id, delta] of Object.entries(caveButtons)) {
+            document.getElementById(id)?.addEventListener('click', () => this.state.updateCaveScore(delta));
         }
-
-        return this.cardFallbackColorsById[cardId] || '';
     }
 
-    getPrimaryDisplayColor(cardData, slotName) {
-        const colors = Array.isArray(cardData && cardData.colors)
-            ? cardData.colors.filter((color) => String(color || '').trim().length > 0)
-            : [];
-        if (colors.length > 0) return String(colors[0]);
-        if (slotName === 'species') return this.getSpeciesTreeColor(cardData);
-        return this.getFallbackColorByCard(cardData);
-    }
+    // ── Score breakdown panel ─────────────────────────────────────────────
 
-    getUsedCardFilenames() {
-        const used = new Set();
-        this.state.trees.forEach((tree) => {
-            if (tree.species && tree.species.filename) used.add(tree.species.filename);
-            ['top', 'bottom', 'left', 'right'].forEach((slot) => {
-                (tree[slot] || []).forEach((card) => {
-                    if (card && card.filename) used.add(card.filename);
-                });
-            });
-        });
-        return used;
-    }
-
-    renderModalList(filter = '') {
-        const list = document.getElementById('modal-card-list');
-        list.innerHTML = '';
-        const usedFilenames = this.getUsedCardFilenames();
-        window.MasterDeck.deck.forEach((card) => {
-            let validSideData = null, folderMap = '';
-
-            if (this.activeModalMode === 'commonToadExtra') {
-                if (card.split_type === 'top_bottom' && !usedFilenames.has(card.filename)) {
-                    const bottomName = this.normalizeCardKey(card.content && card.content.bottom && card.content.bottom.name);
-                    if (bottomName === 'common_toad') {
-                        validSideData = card.content.bottom;
-                        folderMap = 'top_bottom';
-                    }
-                }
-            } else if (this.activeModalMode === 'europeanHareExtra') {
-                if (card.split_type === 'left_right' && (this.activeSlot === 'left' || this.activeSlot === 'right') && !usedFilenames.has(card.filename)) {
-                    const sideName = this.normalizeCardKey(card.content && card.content[this.activeSlot] && card.content[this.activeSlot].name);
-                    if (sideName === 'european_hare') {
-                        validSideData = card.content[this.activeSlot];
-                        folderMap = 'left_right';
-                    }
-                }
-            } else if (this.activeSlot === 'species' && card.split_type === 'trees') { validSideData = card.content.tree; folderMap = 'Tree'; }
-            else if (card.split_type === 'left_right' && (this.activeSlot === 'left' || this.activeSlot === 'right')) { validSideData = card.content[this.activeSlot]; folderMap = 'left_right'; }
-            else if (card.split_type === 'top_bottom' && (this.activeSlot === 'top' || this.activeSlot === 'bottom')) { validSideData = card.content[this.activeSlot]; folderMap = 'top_bottom'; }
-            
-            if (validSideData && validSideData.name.toLowerCase().includes(filter.toLowerCase())) {
-                const btn = document.createElement('button');
-                btn.className = 'modal-card-btn';
-                btn.innerHTML = `
-                    <img src="Assetes/Cards/${folderMap}/${card.filename}" class="modal-card-img" onerror="this.style.display='none'">
-                    <span>${validSideData.name}</span>
-                `;
-                btn.onclick = () => {
-                    if (this.activeModalMode === 'commonToadExtra') {
-                        const tree = this.state.trees.find(t => t.id === this.activeTreeId);
-                        if (!tree) return;
-                        const bottomCommonToadCount = (tree.bottom || []).filter(c => this.isCommonToadCard(c)).length;
-                        if (bottomCommonToadCount >= 2) {
-                            this.closeModal();
-                            return;
-                        }
-                    }
-
-                    const scoringMeta = (typeof ScoringEngine !== 'undefined' && typeof ScoringEngine.resolveCardMeta === 'function')
-                        ? ScoringEngine.resolveCardMeta(this.activeSlot, validSideData.name)
-                        : { cardId: null, symbols: [], ruleType: null };
-
-                    this.state.addCardToSlot(this.activeTreeId, this.activeSlot, {
-                        filename: card.filename,
-                        folder: folderMap,
-                        name: validSideData.name,
-                        colors: validSideData.colors || [],
-                        cardId: scoringMeta.cardId,
-                        symbols: scoringMeta.symbols,
-                        ruleType: scoringMeta.ruleType
-                    });
-                    this.closeModal();
-                };
-                list.appendChild(btn);
-            }
-        });
-    }
-
+    /** Creates (once) or updates the score breakdown panel below the header. */
     renderScoreBreakdown(trees) {
         let panel = document.getElementById('score-breakdown');
         if (!panel) {
@@ -212,218 +48,320 @@ export class UIManager {
             panel.id = 'score-breakdown';
             panel.className = 'score-breakdown';
             const header = document.querySelector('header');
-            if (header) header.insertAdjacentElement('afterend', panel);
-            else this.container.insertAdjacentElement('beforebegin', panel);
+            (header ?? this.container).insertAdjacentElement(header ? 'afterend' : 'beforebegin', panel);
         }
 
-        const items = this.state.lastScoreBreakdown || [];
-        const groupedByTree = new Map();
+        const items = this.state.lastScoreBreakdown ?? [];
+        const byTree = new Map();
         items.forEach(item => {
-            if (!groupedByTree.has(item.treeId)) groupedByTree.set(item.treeId, []);
-            groupedByTree.get(item.treeId).push(item);
+            if (!byTree.has(item.treeId)) byTree.set(item.treeId, []);
+            byTree.get(item.treeId).push(item);
         });
 
-        const groups = trees.map((tree, index) => {
-            const treeItems = groupedByTree.get(tree.id) || [];
-            const rows = treeItems.map(item => {
-                const status = item.calculated ? 'CALC' : 'MISS';
-                const pointsSign = item.points >= 0 ? '+' : '';
-                return `<div class="score-row"><span class="score-card">${item.cardName}</span><span class="score-meta">${item.slot} • ${item.ruleType || 'NONE'} • ${item.detail}</span><span class="score-points">${pointsSign}${item.points}</span><span class="score-status ${item.calculated ? 'ok' : 'missing'}">${status}</span></div>`;
+        const groups = trees.map((tree, i) => {
+            const rows = (byTree.get(tree.id) ?? []).map(item => {
+                const sign = item.points >= 0 ? '+' : '';
+                const statusCls = item.calculated ? 'ok' : 'missing';
+                return `<div class="score-row">
+                    <span class="score-card">${item.cardName}</span>
+                    <span class="score-meta">${item.slot} • ${item.ruleType ?? 'NONE'} • ${item.detail}</span>
+                    <span class="score-points">${sign}${item.points}</span>
+                    <span class="score-status ${statusCls}">${item.calculated ? 'CALC' : 'MISS'}</span>
+                </div>`;
             }).join('');
-            const treeTotal = this.state.lastTreeScores[tree.id] || 0;
-
-            return `<div class="score-tree-group"><div class="score-tree-title">Tree ${index + 1} Total: ${treeTotal}</div><div class="score-tree-list">${rows || '<div class="score-empty">No cards on this tree.</div>'}</div></div>`;
+            const treeTotal = this.state.lastTreeScores[tree.id] ?? 0;
+            return `<div class="score-tree-group">
+                <div class="score-tree-title">Tree ${i + 1} Total: ${treeTotal}</div>
+                <div class="score-tree-list">${rows || '<div class="score-empty">No cards on this tree.</div>'}</div>
+            </div>`;
         }).join('');
 
-        const collapseClass = this.isScoreBreakdownCollapsed ? 'collapsed' : 'expanded';
-        const toggleLabel = this.isScoreBreakdownCollapsed ? 'Show' : 'Hide';
-
+        const expanded = !this.isScoreBreakdownCollapsed;
         panel.innerHTML = `
             <div class="score-breakdown-header">
-                <button class="score-breakdown-toggle" type="button" aria-expanded="${!this.isScoreBreakdownCollapsed}">${toggleLabel} Score Breakdown (${items.length} cards)</button>
+                <button class="score-breakdown-toggle" type="button" aria-expanded="${expanded}">
+                    ${expanded ? 'Hide' : 'Show'} Score Breakdown (${items.length} cards)
+                </button>
             </div>
-            <div class="score-breakdown-content ${collapseClass}">
+            <div class="score-breakdown-content ${expanded ? 'expanded' : 'collapsed'}">
                 <div class="score-breakdown-list">${groups || '<div class="score-empty">No cards on board.</div>'}</div>
             </div>
         `;
 
-        const toggleButton = panel.querySelector('.score-breakdown-toggle');
-        const content = panel.querySelector('.score-breakdown-content');
-        if (toggleButton && content) {
-            toggleButton.addEventListener('click', () => {
-                this.isScoreBreakdownCollapsed = !this.isScoreBreakdownCollapsed;
-                content.classList.toggle('collapsed', this.isScoreBreakdownCollapsed);
-                content.classList.toggle('expanded', !this.isScoreBreakdownCollapsed);
-                toggleButton.setAttribute('aria-expanded', String(!this.isScoreBreakdownCollapsed));
-                toggleButton.textContent = `${this.isScoreBreakdownCollapsed ? 'Show' : 'Hide'} Score Breakdown (${items.length} cards)`;
-            });
-        }
+        panel.querySelector('.score-breakdown-toggle').addEventListener('click', () => {
+            this.isScoreBreakdownCollapsed = !this.isScoreBreakdownCollapsed;
+            this.renderScoreBreakdown(trees);
+        });
     }
 
-    renderCavePanel() {
-        let panel = document.getElementById('cave-panel');
-        if (!panel) {
-            panel = document.createElement('div');
-            panel.id = 'cave-panel';
-            panel.className = 'cave-panel';
-            const header = document.querySelector('header');
-            if (header) header.insertAdjacentElement('afterend', panel);
-            else this.container.insertAdjacentElement('beforebegin', panel);
-        }
+    // ── Slot rendering ────────────────────────────────────────────────────
 
-        const caveCount = this.state.caveCount || 0;
-        const minusDisabled = caveCount <= 0 ? 'disabled' : '';
-        panel.innerHTML = `
-            <div class="cave-title">Cave</div>
-            <div class="cave-meta">Hidden cards: ${caveCount} • VP: ${caveCount}</div>
-            <div class="cave-actions">
-                <button class="cave-subtract-btn" type="button" title="Remove a card from cave" ${minusDisabled}>-</button>
-                <button class="cave-add-btn" type="button" title="Add a card to cave">+</button>
-            </div>
-        `;
-
-        const subtractBtn = panel.querySelector('.cave-subtract-btn');
-        const addBtn = panel.querySelector('.cave-add-btn');
-        if (subtractBtn) {
-            subtractBtn.addEventListener('click', () => this.state.removeCardFromCave());
-        }
-        if (addBtn) {
-            addBtn.addEventListener('click', () => this.state.addCardToCave());
-        }
-    }
-
+    /** Builds the HTML for one card slot (species / top / bottom / left / right). */
     renderSlot(tree, slotName) {
-        let html = `<div class="slot-cards">`;
-        const cards = slotName === 'species' ? (tree.species ? [tree.species] : []) : tree[slotName];
+        const cards = slotName === 'species'
+            ? (tree.species ? [tree.species] : [])
+            : (tree[slotName] ?? []);
 
-        if (cards.length > 0) {
-            const topIndex = cards.length - 1;
-            const cardData = cards[topIndex];
-            const shouldAnimate = cardData.playedAnimation === false;
-            const animationClass = shouldAnimate ? 'planting-animation' : 'card-animated';
-            const stackBadge = cards.length > 1 ? `<span class="stack-badge">x${cards.length}</span>` : '';
-            const isLindenSpecies = slotName === 'species' && (cardData.cardId === 'linden' || cardData.name === 'Linden');
-            const isGreatSpottedWoodpeckerCard = slotName !== 'species' && (cardData.cardId === 'great_spotted_woodpecker' || cardData.name === 'Great Spotted Woodpecker');
-            const mostToggle = isLindenSpecies
-                ? `<label class="linden-most-label"><input type="checkbox" class="most-toggle" data-tree="${tree.id}" data-flag="hasLindenMost" ${cardData.hasLindenMost ? 'checked' : ''}> Most</label>`
-                : (isGreatSpottedWoodpeckerCard
-                    ? `<label class="linden-most-label"><input type="checkbox" class="most-toggle" data-tree="${tree.id}" data-slot="${slotName}" data-index="${topIndex}" data-flag="hasMost" ${cardData.hasMost ? 'checked' : ''}> Most</label>`
-                    : '');
-            const isAttachedCard = slotName === 'top' || slotName === 'bottom' || slotName === 'left' || slotName === 'right';
-            const isSpeciesCard = slotName === 'species';
-            const attachedCardScore = isAttachedCard
-                ? ScoringEngine.evaluateDetailed(cardData, this.state.trees, tree).points
-                : null;
-            const speciesCardScore = isSpeciesCard
-                ? (this.state.lastTreeSpeciesScores[tree.id] || 0)
-                : null;
-            const isSideSlot = slotName === 'left' || slotName === 'right';
-            const sideStackTotalScore = isSideSlot
-                ? cards.reduce((sum, card) => sum + ScoringEngine.evaluateDetailed(card, this.state.trees, tree).points, 0)
-                : null;
-            const scoreBadge = (isAttachedCard || isSpeciesCard)
-                ? `<span class="card-score-badge">${isSideSlot ? sideStackTotalScore : (isSpeciesCard ? speciesCardScore : attachedCardScore)}</span>`
-                : '';
-            const bottomCommonToadCount = slotName === 'bottom'
-                ? tree.bottom.filter((card) => this.isCommonToadCard(card)).length
-                : 0;
-            const showCommonToadAddBtn = slotName === 'bottom' && this.isCommonToadCard(cardData) && bottomCommonToadCount === 1;
-            const commonToadAddBtn = showCommonToadAddBtn
-                ? `<button class="common-toad-add-btn" data-tree="${tree.id}" title="Add one extra Common Toad">+</button>`
-                : '';
-            const showEuropeanHareAddBtn = (slotName === 'left' || slotName === 'right') && this.isEuropeanHareCard(cardData);
-            const europeanHareCount = this.getEuropeanHareCount();
-            const europeanHareAddBtn = showEuropeanHareAddBtn
-                ? `<button class="european-hare-add-btn" data-tree="${tree.id}" data-slot="${slotName}" title="Add one extra European Hare">+ [${europeanHareCount}]</button>`
-                : '';
-            const primaryColor = this.getPrimaryDisplayColor(cardData, slotName);
-            const normalizedColor = this.normalizeCardKey(primaryColor);
-            const colorBanner = normalizedColor
-                ? `<span class="card-color-banner" data-color="${normalizedColor}" title="${primaryColor}"></span>`
-                : '';
-            const sideStackPreview = isSideSlot ? this.buildSideStackPreviewHtml(cards, slotName) : '';
-
-            html += `
-                <div class="mini-card image-card ${animationClass}" data-tree="${tree.id}" data-slot="${slotName}" data-index="${topIndex}">
-                    ${sideStackPreview}
-                    <img src="Assetes/Cards/${cardData.folder}/${cardData.filename}" class="card-img split-${slotName} ${isSideSlot ? 'side-main-layer' : ''}">
-                    ${stackBadge}
-                    ${scoreBadge}
-                    ${commonToadAddBtn}
-                    ${europeanHareAddBtn}
-                    ${mostToggle}
-                    ${colorBanner}
-                    <span class="delete-x">×</span>
-                </div>
-            `;
-
-            if (shouldAnimate) cardData.playedAnimation = true;
+        if (cards.length === 0) {
+            // Non-species slots require a species card to be present first.
+            const canAdd = slotName === 'species' || tree.species !== null;
+            const btn = canAdd
+                ? `<button class="add-btn small-add" data-tree="${tree.id}" data-slot="${slotName}">+</button>`
+                : `<button class="add-btn small-add locked" disabled title="Plant a tree first">+</button>`;
+            return `<div class="slot-cards"></div>${btn}`;
         }
 
-        html += `</div>`;
-        if (cards.length === 0) 
-            html += `<button class="add-btn small-add" data-tree="${tree.id}" data-slot="${slotName}">+</button>`;
+        const topIndex = cards.length - 1;
+        const cardData = cards[topIndex];
+
+        const badges   = this._buildSlotBadges(tree, slotName, cards, cardData, topIndex);
+        const extras   = this._buildSlotExtras(tree, slotName, cards, cardData, topIndex);
+        const sidePrev = (slotName === 'left' || slotName === 'right') ? this._buildSideStackPreview(cards, slotName) : '';
+        const borderStyle = this._getButterflyBorderStyle(slotName, cardData);
+        const animCls  = cardData.playedAnimation === false ? 'planting-animation' : 'card-animated';
+        if (cardData.playedAnimation === false) cardData.playedAnimation = true;
+
+        const sideLayerCls = (slotName === 'left' || slotName === 'right') ? 'side-main-layer' : '';
+
+        return `<div class="slot-cards">
+            <div class="mini-card image-card ${animCls}" style="${borderStyle}" data-tree="${tree.id}" data-slot="${slotName}" data-index="${topIndex}">
+                ${sidePrev}
+                <img src="Assetes/Cards/${cardData.folder}/${cardData.filename}" class="card-img split-${slotName} ${sideLayerCls}">
+                ${badges}
+                ${extras}
+                <span class="delete-x">×</span>
+            </div>
+        </div>`;
+    }
+
+    /** Stack-count badge + score badge for a slot. */
+    _buildSlotBadges(tree, slotName, cards, cardData, topIndex) {
+        const stackBadge = cards.length > 1 ? `<span class="stack-badge">x${cards.length}</span>` : '';
+
+        const isSide    = ['top', 'bottom', 'left', 'right'].includes(slotName);
+        const isSpecies = slotName === 'species';
+
+        let scoreBadge = '';
+        if (isSide) {
+            const total = cards.reduce(
+                (sum, c) => sum + ScoringEngine.evaluateDetailed(c, this.state.trees, tree).points, 0
+            );
+            scoreBadge = `<span class="card-score-badge">${total}</span>`;
+        } else if (isSpecies) {
+            const pts = this.state.lastTreeSpeciesScores[tree.id] ?? 0;
+            scoreBadge = `<span class="card-score-badge">${pts}</span>`;
+        }
+
+        return stackBadge + scoreBadge;
+    }
+
+    /** Special-card overlays: Common Toad add-button, European Hare add-button, Most checkboxes. */
+    _buildSlotExtras(tree, slotName, cards, cardData, topIndex) {
+        const nk = normalizeCardKey;
+        const cardNorm = nk(cardData.cardId || cardData.name);
+        let html = '';
+
+        // Common Toad: allow adding a second copy to the same bottom slot
+        if (slotName === 'bottom' && cardNorm === 'common_toad') {
+            const toadCount = tree.bottom.filter(c => nk(c.cardId || c.name) === 'common_toad').length;
+            if (toadCount === 1)
+                html += `<button class="common-toad-add-btn" style="position:absolute;top:4px;right:28px;width:20px;height:20px;z-index:5" data-tree="${tree.id}">+</button>`;
+        }
+
+        // European Hare: show current total count next to the add button
+        if ((slotName === 'left' || slotName === 'right') && cardNorm === 'european_hare') {
+            const hareCount = this.state.trees.reduce((n, t) =>
+                n + ['left', 'right'].reduce((m, s) => m + (t[s] ?? []).filter(c => nk(c.cardId || c.name) === 'european_hare').length, 0), 0);
+            html += `<button class="european-hare-add-btn" data-tree="${tree.id}" data-slot="${slotName}">+ [${hareCount}]</button>`;
+        }
+
+        // Great Spotted Woodpecker: "Most Trees" toggle
+        if ((slotName === 'top' || slotName === 'bottom') && cardNorm === 'great_spotted_woodpecker')
+            html += `<label class="linden-most-label" style="top:25px"><input type="checkbox" class="most-toggle" data-tree="${tree.id}" data-slot="${slotName}" data-index="${topIndex}" data-flag="hasMost" ${cardData.hasMost ? 'checked' : ''}> Most Trees</label>`;
+
+        // Linden: "Most" toggle on the species slot
+        if (slotName === 'species' && cardNorm === 'linden')
+            html += `<label class="linden-most-label"><input type="checkbox" class="most-toggle" data-tree="${tree.id}" data-flag="hasLindenMost" ${cardData.hasLindenMost ? 'checked' : ''}> Most</label>`;
+
         return html;
     }
 
+    /** Returns a CSS border style if the card is a butterfly (colour-coded by set). */
+    _getButterflyBorderStyle(slotName, cardData) {
+        if (!(slotName === 'top' || slotName === 'bottom')) return '';
+        if (!cardData.name?.toLowerCase().includes('butterfly')) return '';
+
+        const boardObj = ScoringEngine.getAllCardsObject(this.state.trees);
+        const { cardToSetMap } = ScoringEngine.getButterflySetMapping(boardObj);
+        const setInfo = cardToSetMap.get(cardData);
+        if (!setInfo) return '';
+
+        const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
+        const c = colors[setInfo.setIndex % colors.length];
+        return `border: 4px solid ${c}; border-radius: 8px; box-sizing: border-box;`;
+    }
+
+    /** Stacked-card preview layers for side slots (shows hidden cards beneath the top one). */
+    _buildSideStackPreview(cards, slotName) {
+        if (cards.length <= 1) return '';
+        return `<div class="side-stack-preview">${
+            cards.slice(0, -1).reverse().map((card, i) => {
+                const color = normalizeCardKey(this._getPrimaryDisplayColor(card, slotName));
+                const chip  = color ? `<span class="side-stack-color-chip" data-color="${color}" title="${color}"></span>` : '';
+                return `<div class="side-stack-layer-wrap" style="--stack-index:${i + 1}">
+                    <img src="Assetes/Cards/${card.folder}/${card.filename}" class="card-img side-stack-layer split-${slotName}" alt="${card.name}">
+                    ${chip}
+                </div>`;
+            }).join('')
+        }</div>`;
+    }
+
+    // ── Colour helpers ────────────────────────────────────────────────────
+
+    _getSpeciesTreeColor(cardData) {
+        const speciesColors = {
+            beech: 'green', birch: 'lime', silver_birch: 'lime', oak: 'brown',
+            linden: 'yellow', douglas_fir: 'silver', horse_chestnut: 'orange',
+            silver_fir: 'blue', sycamore: 'red',
+        };
+        return speciesColors[normalizeCardKey(cardData?.cardId || cardData?.name)] ?? '';
+    }
+
+    /** Lazy fallback: scans window.MasterDeck to get the first color of any card by id. */
+    _getFallbackColorByCard(cardData) {
+        const cardId = normalizeCardKey(cardData?.cardId || cardData?.name);
+        if (!cardId) return '';
+
+        if (!this._cardFallbackColorsById) {
+            const fallback = {};
+            (window.MasterDeck?.deck ?? []).forEach(card => {
+                const register = (side) => {
+                    if (!side?.name || !side.colors?.length) return;
+                    const key = normalizeCardKey(side.name);
+                    fallback[key] ??= String(side.colors[0]);
+                };
+                if (card.split_type === 'left_right') {
+                    register(card.content?.left);
+                    register(card.content?.right);
+                } else if (card.split_type === 'top_bottom') {
+                    register(card.content?.top);
+                    register(card.content?.bottom);
+                }
+            });
+            this._cardFallbackColorsById = fallback;
+        }
+        return this._cardFallbackColorsById[cardId] ?? '';
+    }
+
+    _getPrimaryDisplayColor(cardData, slotName) {
+        const colors = (cardData?.colors ?? []).filter(c => String(c ?? '').trim());
+        if (colors.length > 0) return String(colors[0]);
+        return slotName === 'species'
+            ? this._getSpeciesTreeColor(cardData)
+            : this._getFallbackColorByCard(cardData);
+    }
+
+    /** Returns a Set of normalised card IDs already placed on the board. */
+    _getUsedCardFilenames() {
+        const used = new Set();
+        this.state.trees.forEach(tree => {
+            const add = c => { if (c) used.add(normalizeCardKey(c.cardId || c.name)); };
+            add(tree.species);
+            ['top', 'bottom', 'left', 'right'].forEach(slot => (tree[slot] ?? []).forEach(add));
+        });
+        return used;
+    }
+
+    // ── Full board render ─────────────────────────────────────────────────
+
+    /** Rebuilds the entire board DOM, then attaches event listeners. */
     render(trees, totalScore) {
         this.container.innerHTML = '';
-        trees.forEach((tree, index) => {
-            const treeIsEmpty = !tree.species && tree.top.length === 0 && tree.bottom.length === 0 && tree.left.length === 0 && tree.right.length === 0;
-            const treeControlsHtml = treeIsEmpty
-                ? `<div class="tree-controls"><button class="danger-btn delete-tree-btn" data-tree="${tree.id}">Delete Tree</button></div>`
-                : '';
-            const cluster = document.createElement('div'); cluster.className = 'tree-cluster';
-            cluster.innerHTML = `<div class="slot slot-top">${this.renderSlot(tree, 'top')}</div><div class="slot slot-left">${this.renderSlot(tree, 'left')}</div><div class="slot slot-center">${this.renderSlot(tree, 'species')}</div><div class="slot slot-right">${this.renderSlot(tree, 'right')}</div><div class="slot slot-bottom">${this.renderSlot(tree, 'bottom')}</div>${treeControlsHtml}`;
-            const deleteTreeBtn = cluster.querySelector('.delete-tree-btn');
-            if (deleteTreeBtn) {
-                deleteTreeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    this.state.removeTree(tree.id);
-                });
-            }
+
+        trees.forEach(tree => {
+            const isEmpty = !tree.species && ['top','bottom','left','right'].every(s => !tree[s]?.length);
+            const cluster = document.createElement('div');
+            cluster.className = 'tree-cluster';
+            cluster.innerHTML = `
+                <div class="slot slot-top">${this.renderSlot(tree, 'top')}</div>
+                <div class="slot slot-left">${this.renderSlot(tree, 'left')}</div>
+                <div class="slot slot-center">${this.renderSlot(tree, 'species')}</div>
+                <div class="slot slot-right">${this.renderSlot(tree, 'right')}</div>
+                <div class="slot slot-bottom">${this.renderSlot(tree, 'bottom')}</div>
+                ${isEmpty ? `<div class="tree-controls"><button class="danger-btn delete-tree-btn" data-tree="${tree.id}">Delete Tree</button></div>` : ''}
+            `;
+            cluster.querySelector('.delete-tree-btn')?.addEventListener('click', e => {
+                e.stopPropagation();
+                this.state.removeTree(tree.id);
+            });
             this.container.appendChild(cluster);
         });
-        
-        // ... (Keep the rest of your render function as is)
-        const addBtn = document.createElement('button'); addBtn.id = 'add-tree-btn'; addBtn.className = 'add-btn large-add'; addBtn.innerText = '+ Plant New Tree'; addBtn.addEventListener('click', () => this.state.addTree()); this.container.appendChild(addBtn);
+
+        const addBtn = document.createElement('button');
+        addBtn.id        = 'add-tree-btn';
+        addBtn.className = 'add-btn large-add';
+        addBtn.innerText = '+ Plant New Tree';
+        addBtn.addEventListener('click', () => this.state.addTree());
+        this.container.appendChild(addBtn);
+
         document.getElementById('total-score-display').innerText = `Total Score: ${totalScore}`;
-        this.renderCavePanel();
+        const caveDisplay = document.getElementById('cave-val');
+        if (caveDisplay) caveDisplay.innerText = `Cave: ${this.state.caveCount}`;
+
         this.renderScoreBreakdown(trees);
-        this.container.querySelectorAll('.small-add').forEach(btn => btn.addEventListener('click', (e) => this.openModal(e.target.dataset.tree, e.target.dataset.slot)));
-        this.container.querySelectorAll('.delete-x').forEach(btn => btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const card = e.currentTarget.closest('.image-card');
-            if (!card) return;
-            const treeId = card.dataset.tree;
-            const slot = card.dataset.slot;
-            const tree = this.state.trees.find(t => t.id === treeId);
-            if (!tree || slot === 'species') {
-                this.state.removeCardFromSlot(treeId, slot, Number(card.dataset.index));
-                return;
-            }
-            const liveTopIndex = Math.max(0, ((tree[slot] || []).length - 1));
-            this.state.removeCardFromSlot(treeId, slot, liveTopIndex);
-        }));
-        this.container.querySelectorAll('.common-toad-add-btn').forEach(btn => btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.openCommonToadExtraModal(e.currentTarget.dataset.tree);
-        }));
-        this.container.querySelectorAll('.european-hare-add-btn').forEach(btn => btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.openEuropeanHareExtraModal(e.currentTarget.dataset.tree, e.currentTarget.dataset.slot);
-        }));
-        this.container.querySelectorAll('.most-toggle').forEach(input => input.addEventListener('change', (e) => {
-            e.stopPropagation();
-            const mostFlag = e.currentTarget.dataset.flag || 'hasLindenMost';
-            const treeId = e.currentTarget.dataset.tree;
-            const slot = e.currentTarget.dataset.slot;
-            const index = Number(e.currentTarget.dataset.index);
-            if (slot && Number.isInteger(index)) {
-                this.state.updateCardMeta(treeId, slot, index, { [mostFlag]: !!e.currentTarget.checked });
-                return;
-            }
-            this.state.updateSpeciesCardMeta(treeId, { [mostFlag]: !!e.currentTarget.checked });
-        }));
+        this._attachBoardListeners();
+    }
+
+    /** Attaches delegated event listeners to every interactive element on the board. */
+    _attachBoardListeners() {
+        // Open modal on "+" slot buttons (disabled/locked buttons are skipped)
+        this.container.querySelectorAll('.small-add:not([disabled])').forEach(btn =>
+            btn.addEventListener('click', e => this.modal.open(e.target.dataset.tree, e.target.dataset.slot))
+        );
+
+        // Remove card on "×" buttons
+        this.container.querySelectorAll('.delete-x').forEach(btn =>
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const card = e.currentTarget.closest('.image-card');
+                if (!card) return;
+                const { tree: treeId, slot, index } = card.dataset;
+                const tree = this.state.trees.find(t => t.id === treeId);
+                // Species slot: use stored index; side slots: always remove last (top of stack)
+                const idx = (slot === 'species') ? Number(index)
+                    : Math.max(0, (tree?.[slot]?.length ?? 1) - 1);
+                this.state.removeCardFromSlot(treeId, slot, idx);
+            })
+        );
+
+        // Common Toad extra-card button
+        this.container.querySelectorAll('.common-toad-add-btn').forEach(btn =>
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                this.modal.openCommonToadExtra(e.currentTarget.dataset.tree);
+            })
+        );
+
+        // European Hare extra-card button
+        this.container.querySelectorAll('.european-hare-add-btn').forEach(btn =>
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                this.modal.openEuropeanHareExtra(e.currentTarget.dataset.tree, e.currentTarget.dataset.slot);
+            })
+        );
+
+        // "Most" toggle checkboxes (Linden / Great Spotted Woodpecker)
+        this.container.querySelectorAll('.most-toggle').forEach(input =>
+            input.addEventListener('change', e => {
+                e.stopPropagation();
+                const { tree: treeId, slot, index, flag } = e.currentTarget.dataset;
+                const patch = { [flag]: !!e.currentTarget.checked };
+                if (slot && index !== undefined) {
+                    this.state.updateCardMeta(treeId, slot, Number(index), patch);
+                } else {
+                    this.state.updateSpeciesCardMeta(treeId, patch);
+                }
+            })
+        );
     }
 }
