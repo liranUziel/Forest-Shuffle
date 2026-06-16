@@ -15,12 +15,13 @@ export const scoreRoeDeer = (cardInput, boardObject, currentTree, helpers, engin
     const targetColor = helpers.normalizeName(colors[0]);
 
     // Use engine dynamically to find the matching type
-    const matchCount = engine.getColorTypeCardCount(boardObject, targetColor, null);
-    
+    const { count: matchCount, cards } = engine.getColorTypeCardCount(boardObject, targetColor, null);
+
     return {
         points: matchCount * 3,
         calculated: true,
         detail: `Side case: Roe Deer (${targetColor}) (${matchCount}) x 3 = ${matchCount * 3}`,
-        ruleType: 'SIDE_CASE'
+        ruleType: 'SIDE_CASE',
+        contributors: cards,
     };
 };

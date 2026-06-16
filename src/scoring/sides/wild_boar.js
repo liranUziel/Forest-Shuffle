@@ -5,11 +5,10 @@ export const scoreWildBoar = (cardInput, boardObject, currentTree, helpers, engi
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.left) || []),
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.right) || [])
     ];
-    const hasSqueeker = sideEntries.some((entry) => {
-        if (!entry || !entry.card) return false;
-        const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        return entryId === 'squeeker';
-    });
+    const squeekers = sideEntries.filter(entry =>
+        entry?.card && helpers.normalizeName(entry.card.cardId || entry.card.name) === 'squeeker'
+    ).map(entry => entry.card);
+    const hasSqueeker = squeekers.length > 0;
 
     return {
         points: hasSqueeker ? 10 : 0,
@@ -17,6 +16,7 @@ export const scoreWildBoar = (cardInput, boardObject, currentTree, helpers, engi
         detail: hasSqueeker
             ? 'Side case: Wild Boar with Squeeker present = 10'
             : 'Side case: Wild Boar inactive (no Squeeker present)',
-        ruleType: 'SIDE_CASE'
+        ruleType: 'SIDE_CASE',
+        contributors: squeekers,
     };
 };

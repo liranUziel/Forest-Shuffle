@@ -1,175 +1,166 @@
 /**
- * debugTools.js — Shift+D fills the board with a curated scenario that
- * exercises every card scorer and prints a readable score breakdown to the
- * console.
+ * debugTools.js — Shift+D fills the board with a scenario built to exercise
+ * EVERY registered card scorer at least once, so scoring regressions show up
+ * immediately in the console breakdown.
  *
- * All filenames are real entries from master_deck.json.
- * Top/bottom cards only appear in top/bottom slots; side cards only in left/right slots.
+ * Per-card test shape depends on how that card's formula reads the board:
+ *   - Per-tree condition/count (Chaffinch-on-Beech, Common Toad pair, Silver
+ *     Fir attached count, Linden/Woodpecker UI flags) → two instances, one
+ *     in the "off"/low state and one in the "on"/high state.
+ *   - True multi-set mechanic (Butterfly, via per-species bin-packing) → two
+ *     concurrent sets: one partial (>0) and one complete (max).
+ *   - Single board-wide running tally with one leader (Firefly, Fire
+ *     Salamander, Horse Chestnut) → only ONE state is representable in a
+ *     static snapshot, so these are pushed to their capped/max value.
+ *   - Flat/fixed-value cards (Squeeker, Badger, Pond Turtle, Birch, ...) →
+ *     one instance; there is no "zero" variant to show.
+ *   - Cards with no individual scoring ability (Raccoon, Brown Bear,
+ *     European Fat Dormouse, Violet Carpenter Bee, Parasol Mushroom, Mole)
+ *     → one instance, expected to report 0 VP by design.
+ *
+ * Filenames/colors/symbols are pulled from Assetes/Data/base_forest_shffle_deck.json
+ * (folders: Assetes/Images/Cards/{left_right,top_bottom,tree}/).
  */
 
-// ── Card builder helpers ───────────────────────────────────────────────────
-// cardId must match the key used in ScoringEngine scorer maps.
-// name   is the display name (used as fallback by scorers that read card.name).
-// folder + filename must match the real path: Assetes/Cards/{folder}/{filename}
+const T  = (cardId, name, extra = {}) =>
+    ({ cardId, name, folder: 'tree', filename: `${cardId}.png`, colors: [], symbols: [], ...extra });
 
-const T  = (cardId, name) =>
-    ({ cardId, name, folder: 'Tree', filename: `${cardId}.png` });
+const S  = (cardId, name, filename, colors = [], symbols = []) =>
+    ({ cardId, name, folder: 'left_right', filename, colors, symbols });
 
-// Side card (goes in left OR right slot — slot determined by BOARD entry)
-const S  = (cardId, name, filename, colors = []) =>
-    ({ cardId, name, folder: 'left_right', filename, colors });
+const TB = (cardId, name, filename, colors = [], symbols = []) =>
+    ({ cardId, name, folder: 'top_bottom', filename, colors, symbols });
 
-// Top/bottom card (goes in top OR bottom slot — slot determined by BOARD entry)
-const TB = (cardId, name, filename, colors = []) =>
-    ({ cardId, name, folder: 'top_bottom', filename, colors });
+// ── Tree species ─────────────────────────────────────────────────────────
 
-// ── Tree species ───────────────────────────────────────────────────────────
+const BEECH_1 = T('beech', 'Beech');
+const BEECH_2 = T('beech', 'Beech');           // fully-occupied host → Beech Marten test
+const BEECH_3 = T('beech', 'Beech');
+const BEECH_4 = T('beech', 'Beech');           // 4th Beech → beech>=4 threshold active (5VP each)
+const BIRCH_1 = T('birch', 'Birch');
+const BIRCH_2 = T('birch', 'Birch');
+const BIRCH_3 = T('birch', 'Birch');           // extra host
+const BIRCH_4 = T('birch', 'Birch');           // extra host
+const BIRCH_5 = T('birch', 'Birch');           // extra host
+const BIRCH_6 = T('birch', 'Birch');           // extra host — birchCount=6 → Fly Agaric x3 = 18VP
+const OAK_1   = T('oak', 'Oak');
+const LINDEN_LOW  = T('linden', 'Linden');                                  // hasLindenMost=false → 1VP
+const LINDEN_HIGH = T('linden', 'Linden', { hasLindenMost: true });         // hasLindenMost=true  → 3VP
+const DOUGLAS_FIR = T('douglas_fir', 'Douglas Fir');
+const SILVER_FIR_1 = T('silver_fir', 'Silver Fir');   // 1 attached card  → 2VP ("x1")
+const SILVER_FIR_2 = T('silver_fir', 'Silver Fir');   // 2 attached cards → 4VP ("x2")
+const SYCAMORE   = T('sycamore', 'Sycamore');
+const SYCAMORE_2 = T('sycamore', 'Sycamore');  // extra host
+const HC = Array.from({ length: 7 }, () => T('horse_chestnut', 'Horse Chestnut')); // 7 → leader = 49VP (cap)
 
-const BEECH          = T('beech',          'Beech');
-const BIRCH          = T('birch',          'Birch');
-const OAK            = T('oak',            'Oak');
-const LINDEN         = T('linden',         'Linden');
-const DOUGLAS_FIR    = T('douglas_fir',    'Douglas Fir');
-const SILVER_FIR     = T('silver_fir',     'Silver Fir');
-const SYCAMORE       = T('sycamore',       'Sycamore');
-const HORSE_CHESTNUT = T('horse_chestnut', 'Horse Chestnut');
+// ── Side cards (left/right) ─────────────────────────────────────────────
 
-// ── Side cards (left slot — animal is the LEFT half of the physical card) ──
+const SQUEEKER  = S('squeeker', 'Squeeker', 'roe_deer-squeaker.png', ['red']);
+const BADGER    = S('badger', 'European Badger', 'european_badger-gnat.png', ['orange']);
+const HARE_A    = S('european_hare', 'European Hare', 'european_hare-european_badger.png', ['yellow']);
+const HARE_B    = S('european_hare', 'European Hare', 'raccoon-european_hare.png', ['red']); // hareCount=2
+const RED_FOX   = S('red_fox', 'Red Fox', 'lynx-red_fox.png', ['silver']);          // = hareCount x2 = 4VP
+const LYNX      = S('lynx', 'Lynx', 'violet_carpenter_bee-lynx.png', ['green']);    // roe_deer present → 10VP
+const ROE_DEER_A = S('roe_deer', 'Roe Deer', 'raccoon-roe_deer.png', ['green']);
+const ROE_DEER_B = S('roe_deer', 'Roe Deer', 'fallow_deer-roe_deer.png', ['yellow']);
+const RED_DEER   = S('red_deer', 'Red Deer', 'red_deer-brown_bear.png', ['yellow']);
+const FALLOW_DEER = S('fallow_deer', 'Fallow Deer', 'fallow_deer-wild_boar.png', ['yellow']);
+const WOLF       = S('wolf', 'Wolf', 'wolf-greater_horse_shoe_bat.png', ['red']);
+const WILD_BOAR  = S('wild_boar', 'Wild Boar', 'wild_boar-european_hare.png', ['red']); // squeeker present → 10VP
+const BEECH_MARTEN = S('beech_marten', 'Beech Marten', 'european_hare-beech_marten.png', ['orange']);
+const GNAT       = S('gnat', 'Gnat', 'wolf-gnat.png', ['orange']);                  // = batCount x1
+const BAT_1 = S('bechstein_s_bat', "Bechstein'S Bat", 'bechsteins_bat-wolf.png', ['brown']);
+const BAT_2 = S('brown_long_eared_bat', 'Brown Long-Eared Bat', 'european_fat_dormouse-brown_long_eared_bat.png', ['blue']);
+const BAT_3 = S('greater_horse_shoe_bat', 'Greater Horse-Shoe Bat', 'wolf-greater_horse_shoe_bat.png', ['yellow']);
+const BAT_4 = S('barbastelle_bat', 'Barbastelle Bat', 'barbastelle_bat-wild_boar.png', ['orange']);
+const RACCOON   = S('raccoon', 'Raccoon', 'lynx-raccoon.png', ['lime']);                       // no own ability → 0VP
+const BROWN_BEAR = S('brown_bear', 'Brown Bear', 'red_deer-brown_bear.png', ['green']);        // no own ability → 0VP
+const EUR_FAT_DORMOUSE = S('european_fat_dormouse', 'European Fat Dormouse', 'european_fat_dormouse-barbastelle_bat.png', ['green']); // 0VP
+const VIOLET_CARPENTER_BEE = S('violet_carpenter_bee', 'Violet Carpenter Bee', 'gnat-violet_carpenter_bee.png', ['silver']); // 0VP own score
+const SF_FILLER_1 = S('squeeker', 'Squeeker', 'red_fox-squeaker.png', ['brown']);   // Silver Fir #1 filler
+const SF_FILLER_2 = S('badger', 'European Badger', 'european_badger-fallow_deer.png', ['orange']); // Silver Fir #2 filler
+const SF_FILLER_3 = S('gnat', 'Gnat', 'european_badger-gnat.png', ['brown']);       // Silver Fir #2 filler
 
-const EUR_HARE_LIME  = S('european_hare',   'European Hare',    'european_hare_-_beech_marten.png',    ['lime']);
-const EUR_HARE_YEL   = S('european_hare',   'European Hare',    'european_hare_-_european_badger.png', ['yellow']);
-const EUR_HARE_BLUE  = S('european_hare',   'European Hare',    'european_hare_-_red_fox.png',         ['blue']);
-const FALLOW_DEER    = S('fallow_deer',     'Fallow Deer',      'fallow_deer_-_roe_deer.png',          ['yellow']);
-const WOLF_SLV       = S('wolf',            'Wolf',             'wolf-gnat.png',                       ['silver']);
-const WOLF_RED       = S('wolf',            'Wolf',             'wolf-greater_horse shoe_bat.png',     ['red']);
-const WILD_BOAR      = S('wild_boar',       'Wild Boar',        'wild_boar_-_beech_marten.png',        ['lime']);
-const RED_FOX_L1     = S('red_fox',         'Red Fox',          'red_fox_-_wolf.png',                  ['yellow']);
-const RED_FOX_L2     = S('red_fox',         'Red Fox',          'red_fox_-_squeaker.png',              ['green']);
-const ROE_DEER_BLU   = S('roe_deer',        'Roe Deer',         'roe_deer_-_lynx.png',                 ['blue']);
-const ROE_DEER_YEL   = S('roe_deer',        'Roe Deer',         'roe_deer_-_squeaker.png',             ['yellow']);
-const RED_DEER_L1    = S('red_deer',        'Red Deer',         'red_deer_-_fallow_deer.png',          ['blue']);
-const RED_DEER_L2    = S('red_deer',        'Red Deer',         'red_deer_-_brown_bear.png',           ['yellow']);
-const GNAT_L         = S('gnat',            'Gnat',             'gnat_-_violet_carpenter_bee.png',     ['lime']);
-const BEECH_MARTEN_L1= S('beech_marten',   'Beech Marten',     "beech_marten_-_bechstein's_bat.png",  ['green']);
-const BEECH_MARTEN_L2= S('beech_marten',   'Beech Marten',     'beech_marten_-_brown_bear.png',       ['red']);
-const EUR_BADGER_L   = S('european_badger', 'European Badger',  'european_badger_-_fallow_deer.png',   ['orange']);
-const LYNX_L         = S('lynx',            'Lynx',             'lynx_-_european_hare.png',            ['silver']);
+// ── Top/Bottom cards ─────────────────────────────────────────────────────
 
-// ── Side cards (right slot — animal is the RIGHT half of the physical card) ─
+const POND_TURTLE = TB('pond_turtle', 'Pond Turtle', 'camberwell_beauty-pond_turtle.png', ['lime']);
+const TAWNY_OWL   = TB('tawny_owl', 'Tawny Owl', 'tawny_owl-common_toad.png', ['red']);
+const EURASIAN_JAY = TB('eurasian_jay', 'Eurasian Jay', 'eurasian_jay-fly_agaric.png', ['red']);
+const CHAFFINCH_ACTIVE   = TB('chaffinch', 'Chaffinch', 'chaffinch-common_toad.png', ['green']);   // on Beech → 5VP
+const CHAFFINCH_INACTIVE = TB('chaffinch', 'Chaffinch', 'chaffinch-wood_ant.png', ['green']);      // on Douglas Fir → 0VP
+const RED_SQUIRREL_ACTIVE   = TB('red_squirrel', 'Red Squirrel', 'red_squirrel-fireflies.png', ['orange']); // on Oak → 5VP
+const RED_SQUIRREL_INACTIVE = TB('red_squirrel', 'Red Squirrel', 'red_squirrel-common_toad.png', ['silver']); // on Sycamore → 0VP
+const GOSHAWK    = TB('goshawk', 'Goshawk', 'goshawk-wood_ant.png', ['blue']);
+const WOOD_ANT   = TB('wood_ant', 'Wood Ant', 'chaffinch-wood_ant.png', ['red']);
+const TREE_FROG  = TB('tree_frog', 'Tree Frog', 'bullfinch-tree_frog.png', ['yellow']);
+const MOSS       = TB('moss', 'Moss', 'goshawk-moss.png', ['yellow']);
+const WILD_STRAW = TB('wild_strawberries', 'Wild Strawberries', 'tawny_owl-wild_strawberries.png', ['red']);
+const TREE_FERNS = TB('tree_ferns', 'Tree Ferns', 'bullfinch-tree_ferns.png', ['yellow']);
+const BLACKBERRIES = TB('blackberries', 'Blackberries', 'large_tortoiseshell-blackberries.png', ['lime']);
+const FLY_AGARIC = TB('fly_agaric', 'Fly Agaric', 'eurasian_jay-fly_agaric.png', ['blue']);
+const HEDGEHOG   = TB('hedgehog', 'Hedgehog', 'bullfinch-hedgehog.png', ['green']);
+const STAG_BEETLE = TB('stag_beetle', 'Stag Beetle', 'tawny_owl-stag_beetle.png', ['green']);
+const PARASOL_MUSHROOM = TB('parasol_mushroom', 'Parasol Mushroom', 'bullfinch-parasol_mushroom.png', ['orange']); // 0VP by design
+const MOLE       = TB('mole', 'Mole', 'large_tortoiseshell-mole_re-br.png', ['brown']);                            // 0VP by design
+const COMMON_TOAD_1 = TB('common_toad', 'Common Toad', 'tawny_owl-common_toad.png', ['silver']); // stacked pair → 5VP each
+const COMMON_TOAD_2 = TB('common_toad', 'Common Toad', 'goshawk-common_toad.png', ['red']);      // stacked pair → 5VP each
+const COMMON_TOAD_ALONE = TB('common_toad', 'Common Toad', 'chaffinch-common_toad.png', ['blue']); // alone → 0VP
+const PENNY_BUN  = TB('penny_bun', 'Penny Bun', 'great_spotted_woodpecker-penny_bun.png', ['silver']);
+const GSW_LOW  = TB('great_spotted_woodpecker', 'Great Spotted Woodpecker', 'great_spotted_woodpecker-wood_ant.png', ['yellow']);
+const GSW_HIGH = TB('great_spotted_woodpecker', 'Great Spotted Woodpecker', 'great_spotted_woodpecker-wild_strawberries.png', ['silver']);
+GSW_HIGH.hasMost = true; // UI flag → 10VP (vs GSW_LOW's default false → 0VP)
+const BULLFINCH = TB('bullfinch', 'Bullfinch', 'bullfinch-parasol_mushroom.png', ['silver']);
+const FIRE_SALA_1 = TB('fire_salamander', 'Fire Salamander', 'red_squirrel-fire_salamander.png', ['yellow']);
+const FIRE_SALA_2 = TB('fire_salamander', 'Fire Salamander', 'large_tortoiseshell-fire_salamander.png', ['silver']);
+const FIRE_SALA_3 = TB('fire_salamander', 'Fire Salamander', 'silver_washed_fritillary-fire_salamander.png', ['orange']); // count=3 → leader 25VP (cap)
+const FIREFLY_1 = TB('firefly', 'Fireflies', 'peacock_butterfly-fireflies.png', ['green']);
+const FIREFLY_2 = TB('firefly', 'Fireflies', 'eurasian_jay-fireflies.png', ['silver']);
+const FIREFLY_3 = TB('firefly', 'Fireflies', 'red_squirrel-fireflies.png', ['red']);
+const FIREFLY_4 = TB('firefly', 'Fireflies', 'camberwell_beauty-fireflies.png', ['yellow']); // count=4 → leader 20VP (cap)
+const CHANTERELLE = TB('chanterelle', 'Chanterelle', 'peacock_butterfly-chanterelle.png', ['blue']);
 
-const BECHSTEIN_BAT  = S('bechstein_s_bat',        "Bechstein'S Bat",      "beech_marten_-_bechstein's_bat.png",              ['lime']);
-const BROWN_LONG_BAT = S('brown_long_eared_bat',   'Brown Long-Eared Bat', 'european_fat_dormouse-brown_long eared_bat.png',  ['green']);
-const GR_HORSE_BAT   = S('greater_horse_shoe_bat', 'Greater Horse-Shoe Bat','wolf-greater_horse shoe_bat.png',               ['yellow']);
-const ROE_DEER_LIME  = S('roe_deer',        'Roe Deer',         'fallow_deer_-_roe_deer.png',          ['lime']);
-const ROE_DEER_OGE   = S('roe_deer',        'Roe Deer',         'wild_boar_-_roe_deer.png',            ['orange']);
-// cardId='squeeker' (with ee) matches the key in ScoringEngine.sideCardScorers
-const SQUEAKER_R1    = S('squeeker',        'Squeaker',         'red_fox_-_squeaker.png',              ['brown']);
-const SQUEAKER_R2    = S('squeeker',        'Squeaker',         'roe_deer_-_squeaker.png',             ['red']);
-const LYNX_R         = S('lynx',            'Lynx',             'violet_carpenter_bee_-_lynx.png',     ['green']);
-const EUR_BADGER_R   = S('european_badger', 'European Badger',  'brown_Long eared_bat_-_european_badger.png', ['silver']);
-const EUR_HARE_R     = S('european_hare',   'European Hare',    'lynx_-_european_hare.png',            ['lime']);
-const WOLF_R         = S('wolf',            'Wolf',             'red_fox_-_wolf.png',                  ['blue']);
-const GNAT_R         = S('gnat',            'Gnat',             'wolf-gnat.png',                       ['orange']);
-const BEECH_MARTEN_R = S('beech_marten',   'Beech Marten',     'wild_boar_-_beech_marten.png',        ['brown']);
-const FALLOW_DEER_R  = S('fallow_deer',     'Fallow Deer',      'red_deer_-_fallow_deer.png',          ['red']);
-const RED_FOX_R      = S('red_fox',         'Red Fox',          'lynx_-_red_fox.png',                  ['silver']);
-
-// ── Top cards (TOP half of a top/bottom physical card) ────────────────────
-
-const CHAFFINCH      = TB('chaffinch',                'Chaffinch',                'chaffinch-common_toad.png',              ['green']);
-const BULLFINCH_1    = TB('bullfinch',                'Bullfinch',                'bullfinch-tree_frog.png',                ['silver']);
-const GOSHAWK_1      = TB('goshawk',                  'Goshawk',                  'goshawk_-_moss.png',                     ['silver']);
-const WOODPECKER     = TB('great_spotted_woodpecker', 'Great Spotted Woodpecker', 'great_spotted_woodpecker-wood_ant.png',  ['yellow']);
-const EURASIAN_JAY   = TB('eurasian_jay',             'Eurasian Jay',             'eurasian_jay_-_fly_agaric.png',          ['red']);
-const RED_SQUIRREL_1 = TB('red_squirrel',             'Red Squirrel',             'red_squirrel_-_fire_salamander.png',     ['green']);
-const TAWNY_OWL_1    = TB('tawny_owl',                'Tawny Owl',                'tawny_owl_-_common_toad.png',            ['red']);
-const PURPLE_EMPEROR = TB('purple_emperor',           'Purple Emperor',           'purple_emperor_-_pond_turtle.png',       ['orange']);
-const CAMBERWELL     = TB('camberwell_beauty',        'Camberwell Beauty',        'camberwell_beauty-tree_frog.png',        ['lime']);
-const LG_TORTOISE    = TB('large_tortoiseshell',      'Large Tortoiseshell',      'large_tortoiseshell-blackberries.png',   ['blue']);
-const PEACOCK_BTF    = TB('peacock_butterfly',        'Peacock Butterfly',        'peacock_butterfly_-_chanterelle.png',    ['brown']);
-const SILV_FRITI     = TB('silver_washed_fritillary', 'Silver-Washed Fritillary', 'silver washed_fritillary-moss.png',     ['green']);
-const RED_SQUIRREL_2 = TB('red_squirrel',             'Red Squirrel',             'red_squirrel_-_wild_strawberries.png',   ['brown']);
-const BULLFINCH_2    = TB('bullfinch',                'Bullfinch',                'bullfinch_-_hedgehog.png',               ['silver']);
-const TAWNY_OWL_2    = TB('tawny_owl',                'Tawny Owl',                'tawny_owl_-_penny_bun.png',              ['lime']);
-const GOSHAWK_2      = TB('goshawk',                  'Goshawk',                  'goshawk_-_wood_ant.png',                 ['blue']);
-
-// ── Bottom cards (BOTTOM half of a top/bottom physical card) ──────────────
-
-const COMMON_TOAD    = TB('common_toad',       'Common Toad',       'chaffinch-common_toad.png',                       ['blue']);
-// cardId='firefly' (singular) matches the key in ScoringEngine.topBottomCardScorers
-const FIREFLY_1      = TB('firefly',           'Fireflies',         'eurasian_jay_-_fireflies.png',                    ['silver']);
-const FIREFLY_2      = TB('firefly',           'Fireflies',         'peacock_butterfly-fireflies.png',                 ['green']);
-const FIREFLY_3      = TB('firefly',           'Fireflies',         'camberwell_beauty_-_fireflies.png',               ['yellow']);
-const FIRE_SALA_1    = TB('fire_salamander',   'Fire Salamander',   'red_squirrel_-_fire_salamander.png',              ['yellow']);
-const FIRE_SALA_2    = TB('fire_salamander',   'Fire Salamander',   'large_tortoiseshell-fire_salamander.png',         ['silver']);
-const FIRE_SALA_3    = TB('fire_salamander',   'Fire Salamander',   'silver washed_fritillary-fire_salamander.png',   ['orange']);
-const FLY_AGARIC     = TB('fly_agaric',        'Fly Agaric',        'eurasian_jay_-_fly_agaric.png',                   ['blue']);
-const CHANTERELLE    = TB('chanterelle',       'Chanterelle',       'camberwell_beauty_-_chanterelle.png',             ['lime']);
-const TREE_FROG      = TB('tree_frog',         'Tree Frog',         'bullfinch-tree_frog.png',                         ['yellow']);
-const POND_TURTLE    = TB('pond_turtle',       'Pond Turtle',       'camberwell_beauty_-_pond_turtle.png',             ['lime']);
-const WOOD_ANT       = TB('wood_ant',          'Wood Ant',          'great_spotted_woodpecker-wood_ant.png',           ['lime']);
-const MOSS           = TB('moss',              'Moss',              'purple_emperor_-_moss.png',                       ['silver']);
-const WILD_STRAW     = TB('wild_strawberries', 'Wild Strawberries', 'red_squirrel_-_wild_strawberries.png',            ['lime']);
-const HEDGEHOG       = TB('hedgehog',          'Hedgehog',          'bullfinch_-_hedgehog.png',                        ['green']);
-const PENNY_BUN      = TB('penny_bun',         'Penny Bun',         'tawny_owl_-_penny_bun.png',                       ['silver']);
-const STAG_BEETLE    = TB('stag_beetle',       'Stag Beetle',       'tawny_owl_-_stag_beetle.png',                     ['red']);
-const WOOD_ANT_2     = TB('wood_ant',          'Wood Ant',          'goshawk_-_wood_ant.png',                          ['green']);
+// Butterfly 2-set test: PE_A/CB_A form one set; PE_B..SF_B form a second set
+// that (per the bin-packing order the engine uses) ends up complete (5/5)
+// while the first stays partial (2/5) — see the HC[] tree order below.
+const PE_A = TB('purple_emperor', 'Purple Emperor', 'purple_emperor-moss.png', ['orange']);
+const CB_A = TB('camberwell_beauty', 'Camberwell Beauty', 'camberwell_beauty-tree_frog.png', ['lime']);
+const PE_B = TB('purple_emperor', 'Purple Emperor', 'purple_emperor-pond_turtle.png', ['orange']);
+const CB_B = TB('camberwell_beauty', 'Camberwell Beauty', 'camberwell_beauty-chanterelle.png', ['orange']);
+const LT_B = TB('large_tortoiseshell', 'Large Tortoiseshell', 'large_tortoiseshell-mole_gr-re.png', ['green']);
+const PB_B = TB('peacock_butterfly', 'Peacock Butterfly', 'peacock_butterfly-hedgehog.png', ['blue']);
+const SF_B = TB('silver_washed_fritillary', 'Silver-Washed Fritillary', 'silver_washed_fritillary-moss.png', ['green']);
 
 // ── Board layout ───────────────────────────────────────────────────────────
-//
-//  T0  Beech #1   top=Chaffinch(5)           btm=[Toad+Toad](5ea)        left=EurHare(lime)   right=BechsteinBat
-//  T1  Beech #2   top=Bullfinch(2×insects)   btm=Firefly#1→leader(15)   left=EurHare(blue)   right=BrownLongBat
-//  T2  Beech #3   top=Goshawk(3×birds)       btm=Firefly#2(0,not leader) left=FallowDeer      right=GreaterHorseBat
-//  T3  Beech #4   top=Woodpecker(hasMost)    btm=Firefly#3(0,not leader) left=Wolf(silver)    right=RoeDeer(lime)
-//  T4  Birch #1   top=EurasianJay(3)         btm=FlyAgaric(3×birch)      left=WildBoar        right=Squeaker
-//  T5  Oak        top=RedSquirrel(5)         btm=FireSala#1→leader(25)   left=RoeDeer(blue)   right=Lynx
-//  T6  Linden     top=TawnyOwl(5)            btm=PondTurtle(5)           left=EurHare(yellow) right=EurBadger
-//  T7  DouglasFir top=PurpleEmperor→btfly#1  btm=TreeFrog(5×gnats)       left=RedDeer(blue)   right=BeechMarten
-//  T8  SilverFir  top=CamberwellBeauty       btm=FireSala#2(0,handled)   left=Gnat(lime)      right=EurHare(lime)
-//  T9  Sycamore#1 top=LargeTortoiseshell     btm=FireSala#3(0,handled)   left=BeechMarten     right=Wolf(blue)
-//  T10 HC#1(ldr)  top=PeacockButterfly       btm=WoodAnt(2×btm cards)    left=RoeDeer(yellow) right=Gnat(orange)
-//  T11 HC#2       top=SilvWashedFritillary   btm=Moss(10,≥10trees)       left=RedDeer(yellow) right=FallowDeer
-//  T12 HC#3       top=RedSquirrel#2(5)       btm=WildStrawberries(10)    left=Wolf(red)       right=Squeaker#2
-//  T13 Birch #2   top=Bullfinch#2            btm=Hedgehog(2×butterflies) left=BeechMarten#2   right=RedFox
-//  T14 Sycamore#2 top=TawnyOwl#2             btm=PennyBun(4flat)         left=EurBadger       right=RoeDeer(orange)
-//  T15 Birch #3   top=Goshawk#2              btm=StagBeetle(pawed)       left=RedFox(green)   right=RoeDeer(orange)
+// HC[0..6]'s top slots carry the butterfly sequence in this exact order so
+// the engine's bin-packing produces one partial set and one complete set.
 
 const BOARD = [
-    // T0 — Beech #1: Chaffinch + stacked Common Toad pair, Hare, Bat
-    { species: BEECH,          top: CHAFFINCH,     bottom: [COMMON_TOAD, COMMON_TOAD], left: EUR_HARE_LIME,  right: BECHSTEIN_BAT },
-    // T1 — Beech #2: Bullfinch counts insects, Firefly #1 becomes leader (25→15 for 3 total)
-    { species: BEECH,          top: BULLFINCH_1,   bottom: FIREFLY_1,                  left: EUR_HARE_BLUE,  right: BROWN_LONG_BAT },
-    // T2 — Beech #3: Goshawk counts birds, Firefly #2 (0, handled by T1 leader)
-    { species: BEECH,          top: GOSHAWK_1,     bottom: FIREFLY_2,                  left: FALLOW_DEER,    right: GR_HORSE_BAT },
-    // T3 — Beech #4: 4th Beech triggers 5VP each; Woodpecker; Firefly #3 (0, handled by T1 leader)
-    { species: BEECH,          top: WOODPECKER,    bottom: FIREFLY_3,                  left: WOLF_SLV,       right: ROE_DEER_LIME },
-    // T4 — Birch #1: Eurasian Jay (3 flat VP), Fly Agaric (3×birch), WildBoar, Squeaker
-    { species: BIRCH,          top: EURASIAN_JAY,  bottom: FLY_AGARIC,                 left: WILD_BOAR,      right: SQUEAKER_R1 },
-    // T5 — Oak: Red Squirrel (5), Fire Salamander #1 → LEADER (set of 3 = 25 VP)
-    { species: OAK,            top: RED_SQUIRREL_1,bottom: FIRE_SALA_1,                left: ROE_DEER_BLU,   right: LYNX_R },
-    // T6 — Linden: Tawny Owl (5), Pond Turtle (5), Hare, Badger
-    { species: LINDEN,         top: TAWNY_OWL_1,   bottom: POND_TURTLE,                left: EUR_HARE_YEL,   right: EUR_BADGER_R },
-    // T7 — Douglas Fir: Purple Emperor (butterfly #1 → set leader), Tree Frog (5×gnats), Red Deer, Beech Marten
-    { species: DOUGLAS_FIR,    top: PURPLE_EMPEROR, bottom: TREE_FROG,                 left: RED_DEER_L1,    right: BEECH_MARTEN_R },
-    // T8 — Silver Fir: Camberwell Beauty (butterfly #2), Fire Salamander #2 (0, T5 is leader), Gnat, Hare
-    { species: SILVER_FIR,     top: CAMBERWELL,    bottom: FIRE_SALA_2,                left: GNAT_L,         right: EUR_HARE_R },
-    // T9 — Sycamore #1: Large Tortoiseshell (butterfly #3), Fire Salamander #3 (0, handled), Beech Marten, Wolf
-    { species: SYCAMORE,       top: LG_TORTOISE,   bottom: FIRE_SALA_3,                left: BEECH_MARTEN_L1,right: WOLF_R },
-    // T10 — HC #1 (leader → 9 VP for 3 HCs): Peacock Butterfly (#4), Wood Ant, Roe Deer, Gnat
-    { species: HORSE_CHESTNUT, top: PEACOCK_BTF,   bottom: WOOD_ANT,                   left: ROE_DEER_YEL,   right: GNAT_R },
-    // T11 — HC #2: Silver-Washed Fritillary (#5 → set complete!), Moss, Red Deer, Fallow Deer
-    { species: HORSE_CHESTNUT, top: SILV_FRITI,    bottom: MOSS,                       left: RED_DEER_L2,    right: FALLOW_DEER_R },
-    // T12 — HC #3: Red Squirrel #2, Wild Strawberries, Wolf, Squeaker
-    { species: HORSE_CHESTNUT, top: RED_SQUIRREL_2,bottom: WILD_STRAW,                 left: WOLF_RED,       right: SQUEAKER_R2 },
-    // T13 — Birch #2: Bullfinch #2, Hedgehog (2×butterflies), Beech Marten, Red Fox
-    { species: BIRCH,          top: BULLFINCH_2,   bottom: HEDGEHOG,                   left: BEECH_MARTEN_L2,right: RED_FOX_R },
-    // T14 — Sycamore #2: Tawny Owl #2, Penny Bun (4 flat), European Badger, Roe Deer
-    { species: SYCAMORE,       top: TAWNY_OWL_2,   bottom: PENNY_BUN,                  left: EUR_BADGER_L,   right: ROE_DEER_OGE },
-    // T15 — Birch #3: Goshawk #2, Stag Beetle (pawed animals), Red Fox, Roe Deer
-    { species: BIRCH,          top: GOSHAWK_2,     bottom: STAG_BEETLE,                left: RED_FOX_L2,     right: ROE_DEER_OGE },
+    { species: BEECH_1,  top: CHAFFINCH_ACTIVE, bottom: STAG_BEETLE, left: HARE_A, right: BAT_1 },
+    { species: BEECH_2,  top: TAWNY_OWL, bottom: PENNY_BUN, left: RED_DEER, right: FALLOW_DEER }, // fully occupied → Beech Marten test
+    { species: BEECH_3,  top: EURASIAN_JAY, bottom: MOLE, left: WOLF, right: WILD_BOAR },
+    { species: BEECH_4,  top: GOSHAWK, bottom: MOSS, left: LYNX, right: BEECH_MARTEN },
+    { species: BIRCH_1,  top: BULLFINCH, bottom: WOOD_ANT, left: RED_FOX, right: HARE_B },
+    { species: BIRCH_2,  bottom: TREE_FROG, left: RACCOON, right: BROWN_BEAR },
+    { species: BIRCH_3,  bottom: POND_TURTLE },
+    { species: BIRCH_4,  bottom: FLY_AGARIC },
+    { species: BIRCH_5,  bottom: WILD_STRAW },
+    { species: BIRCH_6,  bottom: FIREFLY_4 },
+    { species: OAK_1,    top: RED_SQUIRREL_ACTIVE, bottom: CHANTERELLE, left: EUR_FAT_DORMOUSE, right: VIOLET_CARPENTER_BEE },
+    { species: DOUGLAS_FIR, top: CHAFFINCH_INACTIVE, bottom: HEDGEHOG, left: BADGER, right: SQUEEKER },
+    { species: SYCAMORE, top: RED_SQUIRREL_INACTIVE, bottom: COMMON_TOAD_ALONE, left: ROE_DEER_A, right: ROE_DEER_B },
+    { species: SYCAMORE_2, bottom: PARASOL_MUSHROOM },
+    { species: LINDEN_LOW,  top: GSW_LOW,  bottom: TREE_FERNS, left: GNAT, right: BAT_2 },
+    { species: LINDEN_HIGH, top: GSW_HIGH, bottom: BLACKBERRIES, left: BAT_3, right: BAT_4 },
+    { species: SILVER_FIR_1, left: SF_FILLER_1 },                       // 1 attached card → SilverFir x1 = 2VP
+    { species: SILVER_FIR_2, left: SF_FILLER_2, right: SF_FILLER_3 },   // 2 attached cards → SilverFir x2 = 4VP
+    { species: HC[0], top: PE_A,  bottom: FIRE_SALA_1 },
+    { species: HC[1], top: CB_A,  bottom: FIRE_SALA_2 },
+    { species: HC[2], top: PE_B,  bottom: FIRE_SALA_3 },
+    { species: HC[3], top: CB_B,  bottom: [COMMON_TOAD_1, COMMON_TOAD_2] }, // stacked pair → 5VP each
+    { species: HC[4], top: LT_B,  bottom: FIREFLY_1 },
+    { species: HC[5], top: PB_B,  bottom: FIREFLY_2 },
+    { species: HC[6], top: SF_B,  bottom: FIREFLY_3 },
 ];
-
-// ── Scenario runner ────────────────────────────────────────────────────────
 
 export function runDebugScenario(state) {
     state.trees = [];
@@ -180,17 +171,16 @@ export function runDebugScenario(state) {
 
         state.addCardToSlot(id, 'species', species);
 
-        if (top)    state.addCardToSlot(id, 'top',    top);
+        if (top)    state.addCardToSlot(id, 'top', top);
         if (bottom) {
             if (Array.isArray(bottom)) {
-                // Stacked cards (Common Toad pair): first normal, rest allowStack=true
                 bottom.forEach((card, i) => state.addCardToSlot(id, 'bottom', card, i > 0));
             } else {
                 state.addCardToSlot(id, 'bottom', bottom);
             }
         }
-        if (left)   state.addCardToSlot(id, 'left',  left);
-        if (right)  state.addCardToSlot(id, 'right', right);
+        if (left)  state.addCardToSlot(id, 'left',  left);
+        if (right) state.addCardToSlot(id, 'right', right);
     });
 
     state.notify();

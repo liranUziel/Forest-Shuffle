@@ -8,6 +8,7 @@ export const scoreRedSquirrel = (cardInput, boardObject, currentTree, helpers, e
         detail: active
             ? 'Top/Bottom case: Red Squirrel on Oak = 5'
             : `Top/Bottom case: Red Squirrel inactive (${speciesId || 'no tree'} not oak)`,
-        ruleType: 'TOP_BOTTOM_CASE'
+        ruleType: 'TOP_BOTTOM_CASE',
+        contributors: active ? [currentTree.species] : [],
     };
 };

@@ -6,6 +6,7 @@
 
 import { ScoringEngine } from '../scoring/ScoringEngine.js';
 import { CardModal, normalizeCardKey, mapColorNameToHex } from './CardModal.js';
+import { openScoringInfoPopup } from '../rules/ScoringInfoPopup.js';
 
 export class UIManager {
     /**
@@ -16,6 +17,7 @@ export class UIManager {
         this.state     = state;
         this.container = document.getElementById(containerId);
         this.isScoreBreakdownCollapsed = true;
+        this.breakdownViewMode = 'tree'; // 'tree' | 'card'
 
         this.modal = new CardModal(state, () => this._getUsedCardFilenames());
 
@@ -36,6 +38,10 @@ export class UIManager {
         for (const [id, delta] of Object.entries(caveButtons)) {
             document.getElementById(id)?.addEventListener('click', () => this.state.updateCaveScore(delta));
         }
+
+        document.getElementById('close-contributor-modal')?.addEventListener('click', () => {
+            document.getElementById('contributor-modal')?.classList.add('hidden');
+        });
     }
 
     // ── Score breakdown panel ─────────────────────────────────────────────
@@ -51,37 +57,22 @@ export class UIManager {
             (header ?? this.container).insertAdjacentElement(header ? 'afterend' : 'beforebegin', panel);
         }
 
-        const items = this.state.lastScoreBreakdown ?? [];
-        const byTree = new Map();
-        items.forEach(item => {
-            if (!byTree.has(item.treeId)) byTree.set(item.treeId, []);
-            byTree.get(item.treeId).push(item);
-        });
-
-        const groups = trees.map((tree, i) => {
-            const rows = (byTree.get(tree.id) ?? []).map(item => {
-                const sign = item.points >= 0 ? '+' : '';
-                const statusCls = item.calculated ? 'ok' : 'missing';
-                return `<div class="score-row">
-                    <span class="score-card">${item.cardName}</span>
-                    <span class="score-meta">${item.slot} • ${item.ruleType ?? 'NONE'} • ${item.detail}</span>
-                    <span class="score-points">${sign}${item.points}</span>
-                    <span class="score-status ${statusCls}">${item.calculated ? 'CALC' : 'MISS'}</span>
-                </div>`;
-            }).join('');
-            const treeTotal = this.state.lastTreeScores[tree.id] ?? 0;
-            return `<div class="score-tree-group">
-                <div class="score-tree-title">Tree ${i + 1} Total: ${treeTotal}</div>
-                <div class="score-tree-list">${rows || '<div class="score-empty">No cards on this tree.</div>'}</div>
-            </div>`;
-        }).join('');
-
+        const items    = this.state.lastScoreBreakdown ?? [];
         const expanded = !this.isScoreBreakdownCollapsed;
+        const groups   = this.breakdownViewMode === 'card'
+            ? this._buildCardViewGroups(items)
+            : this._buildTreeViewGroups(items, trees);
+
         panel.innerHTML = `
             <div class="score-breakdown-header">
                 <button class="score-breakdown-toggle" type="button" aria-expanded="${expanded}">
                     ${expanded ? 'Hide' : 'Show'} Score Breakdown (${items.length} cards)
                 </button>
+                ${expanded ? `
+                <div class="score-view-toggle">
+                    <button class="view-mode-btn ${this.breakdownViewMode === 'tree' ? 'active' : ''}" type="button" data-mode="tree">Per Tree</button>
+                    <button class="view-mode-btn ${this.breakdownViewMode === 'card' ? 'active' : ''}" type="button" data-mode="card">Per Card</button>
+                </div>` : ''}
             </div>
             <div class="score-breakdown-content ${expanded ? 'expanded' : 'collapsed'}">
                 <div class="score-breakdown-list">${groups || '<div class="score-empty">No cards on board.</div>'}</div>
@@ -92,6 +83,103 @@ export class UIManager {
             this.isScoreBreakdownCollapsed = !this.isScoreBreakdownCollapsed;
             this.renderScoreBreakdown(trees);
         });
+
+        panel.querySelectorAll('.view-mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.breakdownViewMode = btn.dataset.mode;
+                this.renderScoreBreakdown(trees);
+            });
+        });
+
+        panel.querySelectorAll('.score-row.score-row-clickable').forEach(row => {
+            row.addEventListener('click', () => this._openContributorPopup(
+                row.dataset.treeId, row.dataset.slot, Number(row.dataset.index)
+            ));
+        });
+    }
+
+    /** Groups breakdown rows by tree (one card-list per planted tree). */
+    _buildTreeViewGroups(items, trees) {
+        const byTree = new Map();
+        items.forEach(item => {
+            if (!byTree.has(item.treeId)) byTree.set(item.treeId, []);
+            byTree.get(item.treeId).push(item);
+        });
+
+        return trees.map((tree, i) => {
+            const rows = (byTree.get(tree.id) ?? []).map(item => this._buildScoreRowHtml(item)).join('');
+            const treeTotal = this.state.lastTreeScores[tree.id] ?? 0;
+            return `<div class="score-tree-group">
+                <div class="score-tree-title">Tree ${i + 1} Total: ${treeTotal}</div>
+                <div class="score-tree-list">${rows || '<div class="score-empty">No cards on this tree.</div>'}</div>
+            </div>`;
+        }).join('');
+    }
+
+    /** Groups breakdown rows by card identity, each instance still listed individually. */
+    _buildCardViewGroups(items) {
+        const byCard = new Map();
+        items.forEach(item => {
+            const key = normalizeCardKey(item.card?.cardId || item.cardName || 'unknown');
+            if (!byCard.has(key)) byCard.set(key, { name: item.cardName, items: [] });
+            byCard.get(key).items.push(item);
+        });
+
+        const groups = Array.from(byCard.values()).sort((a, b) => a.name.localeCompare(b.name));
+
+        return groups.map(group => {
+            const subtotal = group.items.reduce((sum, item) => sum + item.points, 0);
+            const rows = group.items.map(item => this._buildScoreRowHtml(item)).join('');
+            return `<div class="score-tree-group">
+                <div class="score-tree-title">${group.name} ×${group.items.length} — Total: ${subtotal}</div>
+                <div class="score-tree-list">${rows}</div>
+            </div>`;
+        }).join('');
+    }
+
+    /** Builds one clickable (if it has contributors) score row. */
+    _buildScoreRowHtml(item) {
+        const sign = item.points >= 0 ? '+' : '';
+        const statusCls = item.calculated ? 'ok' : 'missing';
+        const hasContributors = (item.contributors?.length ?? 0) > 0;
+        const setColor = this._getButterflySetColor(item.card);
+        const accentStyle = setColor ? `border-left: 4px solid ${setColor};` : '';
+        return `<div class="score-row ${hasContributors ? 'score-row-clickable' : ''}" style="${accentStyle}"
+                ${hasContributors ? `data-tree-id="${item.treeId}" data-slot="${item.slot}" data-index="${item.index}"` : ''}>
+            <span class="score-card">${item.cardName}${hasContributors ? ' <span class=\'score-row-hint\'>&#9432;</span>' : ''}</span>
+            <span class="score-meta">${item.slot} • ${item.ruleType ?? 'NONE'} • ${item.detail}</span>
+            <span class="score-points">${sign}${item.points}</span>
+            <span class="score-status ${statusCls}">${item.calculated ? 'CALC' : 'MISS'}</span>
+        </div>`;
+    }
+
+    /** Opens the contributor popup for a given breakdown row, showing the cards that fed its score. */
+    _openContributorPopup(treeId, slot, index) {
+        const item = (this.state.lastScoreBreakdown ?? [])
+            .find(b => b.treeId === treeId && b.slot === slot && b.index === index);
+        if (!item) return;
+
+        const modal = document.getElementById('contributor-modal');
+        const title = document.getElementById('contributor-modal-title');
+        const detail = document.getElementById('contributor-modal-detail');
+        const grid = document.getElementById('contributor-modal-grid');
+        if (!modal || !title || !detail || !grid) return;
+
+        const sign = item.points >= 0 ? '+' : '';
+        title.textContent = `${item.cardName} — ${sign}${item.points} VP`;
+        detail.textContent = item.detail;
+        grid.innerHTML = (item.contributors ?? []).map(card => {
+            const setColor = this._getButterflySetColor(card);
+            const chipStyle = setColor ? `border: 3px solid ${setColor};` : '';
+            return `
+            <div class="contributor-chip" style="${chipStyle}">
+                <img src="Assetes/Images/Cards/${card.folder}/${card.filename}" alt="${card.name}" onerror="this.style.display='none'">
+                <span>${card.name}</span>
+            </div>
+        `;
+        }).join('') || '<div class="score-empty">No specific cards tracked for this score.</div>';
+
+        modal.classList.remove('hidden');
     }
 
     // ── Slot rendering ────────────────────────────────────────────────────
@@ -126,7 +214,7 @@ export class UIManager {
         return `<div class="slot-cards">
             <div class="mini-card image-card ${animCls}" style="${borderStyle}" data-tree="${tree.id}" data-slot="${slotName}" data-index="${topIndex}">
                 ${sidePrev}
-                <img src="Assetes/Cards/${cardData.folder}/${cardData.filename}" class="card-img split-${slotName} ${sideLayerCls}">
+                <img src="Assetes/Images/Cards/${cardData.folder}/${cardData.filename}" class="card-img split-${slotName} ${sideLayerCls}">
                 ${badges}
                 ${extras}
                 <span class="delete-x">×</span>
@@ -186,19 +274,24 @@ export class UIManager {
         return html;
     }
 
+    /** Returns the set-color hex for a butterfly card currently in a set, or null otherwise. */
+    _getButterflySetColor(cardData) {
+        if (!cardData) return null;
+        const cardId = normalizeCardKey(cardData.cardId || cardData.name);
+        if (!ScoringEngine.getButterflyCardIds().has(cardId)) return null;
+
+        const setInfo = this._butterflySetMapping?.cardToSetMap.get(cardData);
+        if (!setInfo) return null;
+
+        const palette = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#f97316', '#14b8a6'];
+        return palette[setInfo.setIndex % palette.length];
+    }
+
     /** Returns a CSS border style if the card is a butterfly (colour-coded by set). */
     _getButterflyBorderStyle(slotName, cardData) {
         if (!(slotName === 'top' || slotName === 'bottom')) return '';
-        if (!cardData.name?.toLowerCase().includes('butterfly')) return '';
-
-        const boardObj = ScoringEngine.getAllCardsObject(this.state.trees);
-        const { cardToSetMap } = ScoringEngine.getButterflySetMapping(boardObj);
-        const setInfo = cardToSetMap.get(cardData);
-        if (!setInfo) return '';
-
-        const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
-        const c = colors[setInfo.setIndex % colors.length];
-        return `border: 4px solid ${c}; border-radius: 8px; box-sizing: border-box;`;
+        const color = this._getButterflySetColor(cardData);
+        return color ? `border: 4px solid ${color}; border-radius: 8px; box-sizing: border-box;` : '';
     }
 
     /** Stacked-card preview layers for side slots (shows hidden cards beneath the top one). */
@@ -209,7 +302,7 @@ export class UIManager {
                 const color = normalizeCardKey(this._getPrimaryDisplayColor(card, slotName));
                 const chip  = color ? `<span class="side-stack-color-chip" data-color="${color}" title="${color}"></span>` : '';
                 return `<div class="side-stack-layer-wrap" style="--stack-index:${i + 1}">
-                    <img src="Assetes/Cards/${card.folder}/${card.filename}" class="card-img side-stack-layer split-${slotName}" alt="${card.name}">
+                    <img src="Assetes/Images/Cards/${card.folder}/${card.filename}" class="card-img side-stack-layer split-${slotName}" alt="${card.name}">
                     ${chip}
                 </div>`;
             }).join('')
@@ -277,6 +370,7 @@ export class UIManager {
     /** Rebuilds the entire board DOM, then attaches event listeners. */
     render(trees, totalScore) {
         this.container.innerHTML = '';
+        this._butterflySetMapping = ScoringEngine.getButterflySetMapping(ScoringEngine.getAllCardsObject(trees));
 
         trees.forEach(tree => {
             const isEmpty = !tree.species && ['top','bottom','left','right'].every(s => !tree[s]?.length);
@@ -304,7 +398,7 @@ export class UIManager {
         addBtn.addEventListener('click', () => this.state.addTree());
         this.container.appendChild(addBtn);
 
-        document.getElementById('total-score-display').innerText = `Total Score: ${totalScore}`;
+        document.getElementById('total-score-text').innerText = `Total Score: ${totalScore}`;
         const caveDisplay = document.getElementById('cave-val');
         if (caveDisplay) caveDisplay.innerText = `Cave: ${this.state.caveCount}`;
 
@@ -363,5 +457,17 @@ export class UIManager {
                 }
             })
         );
+
+        // "How does this card score?" popup (click only — hover was too noisy on the board)
+        this.container.querySelectorAll('.mini-card.image-card').forEach(card => {
+            card.addEventListener('click', e => {
+                if (e.target.closest('.delete-x, .common-toad-add-btn, .european-hare-add-btn, .linden-most-label')) return;
+                const { tree: treeId, slot, index } = card.dataset;
+                const tree = this.state.trees.find(t => t.id === treeId);
+                const cardData = slot === 'species' ? tree?.species : tree?.[slot]?.[Number(index)];
+                if (!cardData) return;
+                openScoringInfoPopup(normalizeCardKey(cardData.cardId || cardData.name));
+            });
+        });
     }
 }

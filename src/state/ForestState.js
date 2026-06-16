@@ -122,33 +122,39 @@ export class ForestState {
             breakdown.push({
                 treeId: tree.id,
                 slot: 'species',
+                index: 0,
+                card: tree.species,
                 cardName: speciesScore.cardName,
-                points: safePoints, 
+                points: safePoints,
                 calculated: speciesScore.calculated,
                 detail: speciesScore.detail || 'Missing detail',
-                ruleType: speciesScore.ruleType
+                ruleType: speciesScore.ruleType,
+                contributors: speciesScore.contributors ?? []
             });
-            
+
             if (speciesScore.points === undefined) {
                 console.warn(`⚠️ Warning: The scoring file for ${speciesScore.cardName} is returning an invalid object.`);
             }
         }
 
         ['top', 'bottom', 'left', 'right'].forEach(slot => {
-            tree[slot].forEach(cardData => {
+            tree[slot].forEach((cardData, index) => {
                 if (!cardData || !cardData.name) return;
                 const cardScore = ScoringEngine.evaluateDetailed(cardData, this.trees, tree);
                 const safePoints = Number(cardScore.points) || 0;
                 total += safePoints;
-                
+
                 breakdown.push({
                     treeId: tree.id,
                     slot,
+                    index,
+                    card: cardData,
                     cardName: cardScore.cardName,
                     points: safePoints,
                     calculated: cardScore.calculated,
                     detail: cardScore.detail || 'Missing detail',
-                    ruleType: cardScore.ruleType
+                    ruleType: cardScore.ruleType,
+                    contributors: cardScore.contributors ?? []
                 });
 
                 if (cardScore.points === undefined) {

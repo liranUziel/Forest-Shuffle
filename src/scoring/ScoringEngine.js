@@ -20,6 +20,8 @@ import { scoreWildBoar }    from './sides/wild_boar.js';
 import { scoreBeechMarten } from './sides/beech_marten.js';
 import { scoreGnat }        from './sides/gnat.js';
 import { scoreBat }         from './sides/bat.js';
+import { scoreEuropeanFatDormouse } from './sides/european_fat_dormouse.js';
+import { scoreZeroPoints as scoreSideZeroPoints } from './sides/zero_points.js';
 
 // ── Top/Bottom-card scorer registry ──────────────────────────────────────
 import { scorePondTurtle }           from './top_bottom/pond_turtle.js';
@@ -78,6 +80,11 @@ const sideCardScorers = {
     greater_horse_shoe_bat:scoreBat,
     greater_horseshoe_bat: scoreBat,   // spelling variant
     barbastelle_bat:       scoreBat,
+    european_fat_dormouse: scoreEuropeanFatDormouse,
+    // No printed ability of their own — only counted by other cards (Stag Beetle, etc.)
+    raccoon:               scoreSideZeroPoints,
+    brown_bear:            scoreSideZeroPoints,
+    violet_carpenter_bee:  scoreSideZeroPoints,
 };
 
 const topBottomCardScorers = {
@@ -241,89 +248,91 @@ export const ScoringEngine = {
         return null;
     },
 
-    /** Total count of insects on the board (Bullfinch scoring). */
+    /** Total count of insects on the board (Bullfinch scoring), plus the matching cards. */
     getBullfinchInsectCount(boardObject) {
         const insectIds    = new Set(['firefly', 'wood_ant', 'stag_beetle', 'gnat', 'snail', 'violet_carpenter_bee']);
         const butterflyIds = this.getButterflyCardIds();
-        let count = 0;
+        const cards = [];
         for (const entry of (boardObject?.all ?? [])) {
             if (!entry?.card) continue;
             const id = Helpers.normalizeName(entry.card.cardId || entry.card.name);
             const hasInsectSymbol = (entry.card.symbols ?? []).some(s => Helpers.normalizeName(s) === 'insect');
-            if (hasInsectSymbol || insectIds.has(id) || butterflyIds.has(id)) count++;
+            if (hasInsectSymbol || insectIds.has(id) || butterflyIds.has(id)) cards.push(entry.card);
         }
-        return count;
+        return { count: cards.length, cards };
     },
 
-    /** Count of fully occupied trees (all 5 slots filled). */
+    /** Count of fully occupied trees (all 5 slots filled), plus their species cards. */
     getFullyOccupiedTreeCount(boardObject) {
-        return Object.values(boardObject?.byTree ?? {}).reduce((n, b) => {
+        const cards = [];
+        for (const b of Object.values(boardObject?.byTree ?? {})) {
             const full = b?.species?.[0] && b.top?.length && b.bottom?.length && b.left?.length && b.right?.length;
-            return n + (full ? 1 : 0);
-        }, 0);
+            if (full) cards.push(b.species[0]);
+        }
+        return { count: cards.length, cards };
     },
 
-    /** Count of cards that match colorType anywhere on the board. */
+    /** Count of cards that match colorType anywhere on the board, plus the matching cards. */
     getColorTypeCardCount(boardObject, colorType, bonusTreeSpeciesId) {
         const normalizedColor = Helpers.normalizeName(colorType);
-        let count = 0;
+        const cards = [];
         for (const entry of (boardObject?.all ?? [])) {
             if (!entry?.card) continue;
             const colorMatch = (entry.card.colors ?? []).some(c => Helpers.normalizeName(c) === normalizedColor);
-            if (colorMatch) { count++; continue; }
+            if (colorMatch) { cards.push(entry.card); continue; }
             if (entry.slot === 'species' && bonusTreeSpeciesId) {
-                if (this.getSpeciesIdFromCard(entry.card) === bonusTreeSpeciesId) count++;
+                if (this.getSpeciesIdFromCard(entry.card) === bonusTreeSpeciesId) cards.push(entry.card);
             }
         }
-        return count;
+        return { count: cards.length, cards };
     },
 
-    /** Count of bird cards (Goshawk targets) in top/bottom slots. */
+    /** Count of bird cards (Goshawk targets) in top/bottom slots, plus the matching cards. */
     getGoshawkBirdCount(boardObject) {
         const birdIds = new Set(['tawny_owl', 'bullfinch', 'great_spotted_woodpecker', 'eurasian_jay', 'chaffinch', 'goshawk']);
-        let count = 0;
+        const cards = [];
         for (const entry of [...(boardObject?.bySlot?.top ?? []), ...(boardObject?.bySlot?.bottom ?? [])]) {
             if (!entry?.card) continue;
-            if (birdIds.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) count++;
+            if (birdIds.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) cards.push(entry.card);
         }
-        return count;
+        return { count: cards.length, cards };
     },
 
-    /** Count of plant cards (Red Deer targets) anywhere on the board. */
+    /** Count of plant cards (Red Deer targets) anywhere on the board, plus the matching cards. */
     getRedDeerPlantCount(boardObject) {
         const plantIds = new Set(['blackberries', 'moss', 'mose', 'wild_strawberries', 'tree_fern', 'tree_ferns', 'tree_ferens']);
-        let count = 0;
+        const cards = [];
         for (const entry of (boardObject?.all ?? [])) {
             if (!entry?.card) continue;
-            if (plantIds.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) count++;
+            if (plantIds.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) cards.push(entry.card);
         }
-        return count;
+        return { count: cards.length, cards };
     },
 
-    /** Count of cloven-hoofed animals in side slots. */
+    /** Count of cloven-hoofed animals in side slots, plus the matching cards. */
     getClovenHoofedAnimalCount(boardObject) {
         const ids = new Set(['red_deer', 'roe_deer', 'wild_boar', 'squeeker', 'fallow_deer']);
-        let count = 0;
+        const cards = [];
         for (const entry of [...(boardObject?.bySlot?.left ?? []), ...(boardObject?.bySlot?.right ?? [])]) {
             if (!entry?.card) continue;
-            if (ids.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) count++;
+            if (ids.has(Helpers.normalizeName(entry.card.cardId || entry.card.name))) cards.push(entry.card);
         }
-        return count;
+        return { count: cards.length, cards };
     },
 
-    /** Bat scoring stats: total bat cards + distinct bat types in side slots. */
+    /** Bat scoring stats: total bat cards + distinct bat types in side slots, plus the matching cards. */
     getBatScoringStats(boardObject) {
         const batIds = this.getBatCardIds();
         const distinctTypes = new Set();
-        let totalBatCards = 0;
+        const cards = [];
         for (const entry of [...(boardObject?.bySlot?.left ?? []), ...(boardObject?.bySlot?.right ?? [])]) {
             if (!entry?.card) continue;
             const id = Helpers.normalizeName(entry.card.cardId || entry.card.name);
             if (!batIds.has(id)) continue;
-            totalBatCards++;
+            cards.push(entry.card);
             distinctTypes.add(this.getBatTypeId(id));
         }
-        return { totalBatCards, distinctBatTypes: distinctTypes.size, active: distinctTypes.size >= 3 };
+        return { totalBatCards: cards.length, distinctBatTypes: distinctTypes.size, active: distinctTypes.size >= 3, cards };
     },
 
     /** Total number of bat cards in side slots. */
@@ -335,7 +344,8 @@ export const ScoringEngine = {
 
     /**
      * Groups butterfly cards into sets (one of each species per set).
-     * Returns a Map of card → { setIndex, isLeader } and an array of set sizes.
+     * Returns a Map of card → { setIndex, isLeader }, an array of set sizes,
+     * and an array of the actual cards in each set (for contributor display).
      */
     getButterflySetMapping(boardObject) {
         const cardToSetMap = new Map();
@@ -352,6 +362,7 @@ export const ScoringEngine = {
             for (let i = 0; i < sets.length; i++) {
                 if (!sets[i].speciesSet.has(speciesId)) {
                     sets[i].speciesSet.add(speciesId);
+                    sets[i].cards.push(entry.card);
                     cardToSetMap.set(entry.card, { setIndex: i, isLeader: false });
                     placed = true;
                     break;
@@ -359,12 +370,16 @@ export const ScoringEngine = {
             }
             if (!placed) {
                 const newSet = new Set([speciesId]);
-                sets.push({ speciesSet: newSet, leaderCard: entry.card });
+                sets.push({ speciesSet: newSet, leaderCard: entry.card, cards: [entry.card] });
                 cardToSetMap.set(entry.card, { setIndex: sets.length - 1, isLeader: true });
             }
         }
 
-        return { cardToSetMap, setSizes: sets.map(s => s.speciesSet.size) };
+        return {
+            cardToSetMap,
+            setSizes: sets.map(s => s.speciesSet.size),
+            setCards: sets.map(s => s.cards),
+        };
     },
 
     /** VP for a butterfly set of the given size (max 20). */
@@ -405,13 +420,16 @@ export const ScoringEngine = {
         return bonusByTree;
     },
 
-    /** Total planted-tree count, each Violet Carpenter Bee adds +1 to its host tree. */
+    /** Total planted-tree count (plus species cards), each Violet Carpenter Bee adds +1 to its host tree. */
     getPlantedTreeCount(boardObject) {
         const bonus = this.getVioletCarpenterBeeBonusByTree(boardObject);
-        return Object.entries(boardObject?.byTree ?? {}).reduce((acc, [treeId, b]) => {
-            if (!(b.species?.length > 0)) return acc;
-            return acc + 1 + (bonus[treeId] ?? 0);
-        }, 0);
+        const cards = [];
+        for (const [treeId, b] of Object.entries(boardObject?.byTree ?? {})) {
+            if (!(b.species?.length > 0)) continue;
+            const copies = 1 + (bonus[treeId] ?? 0);
+            for (let i = 0; i < copies; i++) cards.push(b.species[0]);
+        }
+        return { count: cards.length, cards };
     },
 
     /** Count of distinct planted tree species. */
@@ -421,12 +439,35 @@ export const ScoringEngine = {
 
     /** Array of distinct planted tree species IDs. */
     getUniquePlantedTreeTypeIds(boardObject) {
-        const unique = new Set();
+        return this.getUniquePlantedTreeTypeCards(boardObject).map(card => this.getSpeciesIdFromCard(card));
+    },
+
+    /** One representative species card per distinct planted tree species. */
+    getUniquePlantedTreeTypeCards(boardObject) {
+        const seen = new Set();
+        const cards = [];
         for (const b of Object.values(boardObject?.byTree ?? {})) {
             const card = b.species?.[0];
-            if (card) unique.add(this.getSpeciesIdFromCard(card));
+            if (!card) continue;
+            const id = this.getSpeciesIdFromCard(card);
+            if (seen.has(id)) continue;
+            seen.add(id);
+            cards.push(card);
         }
-        return Array.from(unique);
+        return cards;
+    },
+
+    /** All species-card copies of a given tree species (Violet Carpenter Bee adds extra copies). */
+    getTreesOfSpecies(boardObject, speciesId) {
+        const bonus = this.getVioletCarpenterBeeBonusByTree(boardObject);
+        const cards = [];
+        for (const [treeId, b] of Object.entries(boardObject?.byTree ?? {})) {
+            const card = b.species?.[0];
+            if (!card || this.getSpeciesIdFromCard(card) !== speciesId) continue;
+            const copies = 1 + (bonus[treeId] ?? 0);
+            for (let i = 0; i < copies; i++) cards.push(card);
+        }
+        return cards;
     },
 
     /** Map of speciesId → count planted (Violet Carpenter Bee adds to its host). */

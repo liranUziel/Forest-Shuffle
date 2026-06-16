@@ -20,6 +20,13 @@ export function mapColorNameToHex(colorName) {
     return palette[normalizeCardKey(colorName)] ?? '#cccccc';
 }
 
+/** Normalises a symbol label (filter checkbox value or JSON symbol string) for comparison. */
+function normalizeSymbolKey(value) {
+    const key = normalizeCardKey(value);
+    const aliases = { paw: 'pawed_animal' };
+    return aliases[key] ?? key;
+}
+
 /** Builds a CSS gradient string that represents a card's color split. */
 function buildCardGradient(card, validSideData) {
     if (card.split_type === 'top_bottom') {
@@ -61,6 +68,9 @@ export class CardModal {
         document.getElementById('close-modal').addEventListener('click', () => this.close());
         this._search.addEventListener('input', () => this.renderList());
         document.querySelectorAll('.color-filter-cb').forEach(cb => {
+            cb.addEventListener('change', () => this.renderList());
+        });
+        document.querySelectorAll('#modal-symbol-filters input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', () => this.renderList());
         });
     }
@@ -109,9 +119,11 @@ export class CardModal {
         this._list.innerHTML = '';
         if (!window.MasterDeck?.deck) return;
 
-        const filterText     = this._search.value.toLowerCase();
-        const selectedColors = Array.from(document.querySelectorAll('.color-filter-cb:checked'))
+        const filterText      = this._search.value.toLowerCase();
+        const selectedColors  = Array.from(document.querySelectorAll('.color-filter-cb:checked'))
             .map(cb => cb.value.toLowerCase());
+        const selectedSymbols = Array.from(document.querySelectorAll('#modal-symbol-filters input[type="checkbox"]:checked'))
+            .map(cb => cb.value);
         const usedFilenames  = this.getUsedFilenames();
 
         window.MasterDeck.deck.forEach(card => {
@@ -120,6 +132,7 @@ export class CardModal {
             if (!validSideData.name.toLowerCase().includes(filterText)) return;
             if (!this._passesRepeatabilityCheck(card, validSideData, usedFilenames)) return;
             if (!this._passesColorFilter(validSideData, selectedColors)) return;
+            if (!this._passesSymbolFilter(validSideData, selectedSymbols)) return;
 
             const btn = this._buildCardButton(card, validSideData, folderMap);
             this._list.appendChild(btn);
@@ -152,7 +165,7 @@ export class CardModal {
 
         // Default mode
         if (slot === 'species' && card.split_type === 'trees')
-            return { validSideData: card.content.tree, folderMap: 'Tree' };
+            return { validSideData: card.content.tree, folderMap: 'tree' };
         if (card.split_type === 'left_right' && (slot === 'left' || slot === 'right'))
             return { validSideData: card.content[slot], folderMap: 'left_right' };
         if (card.split_type === 'top_bottom' && (slot === 'top' || slot === 'bottom'))
@@ -193,6 +206,12 @@ export class CardModal {
         return selectedColors.some(c => cardColors.includes(c));
     }
 
+    _passesSymbolFilter(validSideData, selectedSymbols) {
+        if (selectedSymbols.length === 0) return true;
+        const cardSymbols = (validSideData.symbols ?? []).map(normalizeSymbolKey);
+        return selectedSymbols.some(s => cardSymbols.includes(normalizeSymbolKey(s)));
+    }
+
     _buildCardButton(card, validSideData, folderMap) {
         const gradientStyle = buildCardGradient(card, validSideData);
 
@@ -206,7 +225,7 @@ export class CardModal {
         btn.className = 'modal-card-btn';
         btn.innerHTML = `
             <div class="modal-card-img-wrap">
-                <img src="Assetes/Cards/${folderMap}/${card.filename}" class="modal-card-img" onerror="this.style.display='none'">
+                <img src="Assetes/Images/Cards/${folderMap}/${card.filename}" class="modal-card-img" onerror="this.style.display='none'">
                 <div class="modal-card-colors ${swatchMod}" style="${gradientStyle}"></div>
             </div>
             <span>${validSideData.name}</span>
@@ -235,7 +254,7 @@ export class CardModal {
             name:      validSideData.name,
             colors:    validSideData.colors ?? [],
             cardId:    meta.cardId,
-            symbols:   meta.symbols,
+            symbols:   validSideData.symbols ?? [],
             ruleType:  meta.ruleType,
         }, isStack);
         this.close();

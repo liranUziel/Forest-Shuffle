@@ -1,7 +1,16 @@
 .Temp/
+node_modules/
 extracted_cards/
 Backup/
-Src/scoring/old_scoring.md
+src/old_scoring.md
 Apps/
 Assetes/Forest-Shuffle-Icons.png
-Scoring Rules.md
+
+# Legacy pre-refactor files, superseded by src/ + Assetes/Data — kept in Backup/
+app.js
+cards.json
+cleaned_names.json
+master_deck.json
+points.js
+scoring-test-cases.js
+unique_names.json

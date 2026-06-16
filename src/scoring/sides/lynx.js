@@ -6,11 +6,10 @@ export const scoreLynx = (cardInput, boardObject, currentTree, helpers) => {
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.right) || [])
     ];
     
-    const hasRoeDeer = sideEntries.some((entry) => {
-        if (!entry || !entry.card) return false;
-        const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        return entryId === 'roe_deer';
-    });
+    const roeDeer = sideEntries.filter(entry =>
+        entry?.card && helpers.normalizeName(entry.card.cardId || entry.card.name) === 'roe_deer'
+    ).map(entry => entry.card);
+    const hasRoeDeer = roeDeer.length > 0;
 
     return {
         points: hasRoeDeer ? 10 : 0,
@@ -18,6 +17,7 @@ export const scoreLynx = (cardInput, boardObject, currentTree, helpers) => {
         detail: hasRoeDeer
             ? 'Side case: Lynx with Roe Deer present = 10'
             : 'Side case: Lynx inactive (no Roe Deer present)',
-        ruleType: 'SIDE_CASE'
+        ruleType: 'SIDE_CASE',
+        contributors: roeDeer,
     };
 };

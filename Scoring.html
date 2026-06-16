@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forest Shuffle Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="game-header">
+        <a href="./index.html" class="section-btn">&larr; Home</a>
+        <div id="total-score-display" class="score-badge">
+            <span id="total-score-text">Total Score: 0</span>
+            <img src="Assetes/Icons/Points.png" alt="Points Icon" class="score-icon">
+        </div>
+        
+        <!-- Corrected Cave Controls -->
+        <div class="cave-controls">
+            <img id="cave-card-img" class="cave-card-img" src="Assetes/Images/Cave/cave-card.png" alt="Cave Card" onerror="this.style.display='none'">
+            <button id="cave-minus-10" class="cave-btn minus">-10</button>
+            <button id="cave-minus-1" class="cave-btn minus">-1</button>
+            <span id="cave-val" class="cave-badge">Cave: 0</span>
+            <button id="cave-plus-1" class="cave-btn plus">+1</button>
+            <button id="cave-plus-10" class="cave-btn plus">+10</button>
+        </div>
+
+        <div class="action-controls">
+            
+            <button id="clear-save-btn" class="danger-btn">Clear Board</button>
+            <!-- Separate Automa Control Area -->
+            <div id="automa-controls"></div>
+
+        </div>
+    </header>
+    
+    <main id="forest-container"></main>
+
+    <div id="card-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Card</h2>
+                <button id="close-modal">&times;</button>
+            </div>
+            
+            <div class="color-filters" id="modal-color-filters">
+                <label><input type="checkbox" class="color-filter-cb" value="blue">
+                    <span style="color: #13347c; font-size: large;">• Blue</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="yellow">
+                    <span style="color: #facc15; font-size: large;">• Yellow</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="green">
+                    <span style="color: #16a34a; font-size: large;">• Green</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="red">
+                    <span style="color: #dc2626; font-size: large;">• Red</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="orange">
+                    <span style="color: #f97316; font-size: large;">• Orange</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="lime">
+                    <span style="color: #84cc16; font-size: large;">• Lime</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="brown">
+                    <span style="color: #a0522d; font-size: large;">• Brown</span>
+                </label>
+                <label><input type="checkbox" class="color-filter-cb" value="silver">
+                    <span style="color: #c0c0c0; font-size: large;">• Silver</span>
+                </label>
+            </div>
+            <div class="symbol-filters" id="modal-symbol-filters">
+                 <label class="symbol-filter-cb" ><input type="checkbox"  value="Amphibian">
+                    <img src="Assetes/Icons/Amphibian.png" width="15px" alt="Amphibian Icon" class="filter-icon"> 
+                    Amphibian
+                </label>
+                <!-- <label class="symbol-filter-cb" ><input type="checkbox"  value="sapling">
+                    <img src="Assetes/Icons/Sapling.png" width="15px" alt="Sapling Icon" class="filter-icon"> 
+                    Sapling
+                </label> -->
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="bat">
+                    <img src="Assetes/Icons/Bat.png" width="15px" alt="Bat Icon" class="filter-icon"> 
+                    Bat
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="deer">
+                    <img src="Assetes/Icons/Deer.png" width="15px" alt="Deer Icon" class="filter-icon"> 
+                    Deer
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="insect">
+                    <img src="Assetes/Icons/Insect.png" width="15px" alt="Insect Icon" class="filter-icon"> 
+                    Insect
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="cloven-hoofed-animal">
+                    <img src="Assetes/Icons/Cloven-hoofed-animal.png" width="15px" alt="Cloven-hoofed Icon" class="filter-icon"> 
+                    Cloven-hoofed animal
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="plant">
+                    <img src="Assetes/Icons/Plant.png" width="15px" alt="Plant Icon" class="filter-icon"> 
+                    Plant
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="paw">
+                    <img src="Assetes/Icons/Pawed-animal.png" width="15px" alt="Paw Icon" class="filter-icon"> 
+                    Paw
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="mushroom">
+                    <img src="Assetes/Icons/Mushroom.png" width="15px" alt="Mushroom Icon" class="filter-icon"> 
+                    Mushroom
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="butterfly">
+                    <img src="Assetes/Icons/Butterfly.png" width="15px" alt="Butterfly Icon" class="filter-icon"> 
+                    Butterfly
+                </label>
+                <label class="symbol-filter-cb" ><input type="checkbox"  value="bird">
+                    <img src="Assetes/Icons/Bird.png" width="15px" alt="Bird Icon" class="filter-icon"> 
+                    Bird
+                </label>
+            </div>
+
+            <input type="text" id="card-search" placeholder="Search cards...">
+            <div id="modal-card-list" class="card-list"></div>
+        </div>
+    </div>
+
+    <!-- Contributor Popup: shows which cards fed into a score breakdown row -->
+    <div id="contributor-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="contributor-modal-title">Contributing Cards</h2>
+                <button id="close-contributor-modal">&times;</button>
+            </div>
+            <p id="contributor-modal-detail" class="contributor-detail"></p>
+            <div id="contributor-modal-grid" class="contributor-grid"></div>
+        </div>
+    </div>
+
+    <!-- Automa Modal -->
+    <div id="automa-modal" class="modal hidden">
+        <div class="modal-content automa-modal-content">
+            <div class="modal-header">
+                <h2>Solo Automa Deck</h2>
+                <span id="deck-count" class="automa-count">-- / -- cards</span>
+                <button id="close-automa">&times;</button>
+            </div>
+            <div class="deck-area">
+                <div class="automa-deck-col">
+                    <div id="deck-pile" class="deck-stack">DRAW</div>
+                    <button id="shuffle-automa" class="automa-shuffle-btn">Shuffle</button>
+                </div>
+                <div id="card-reveal" class="automa-card-reveal hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>

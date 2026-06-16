@@ -6,18 +6,17 @@ export const scoreTreeFrog = (cardInput, boardObject, currentTree, helpers, engi
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.left) || []),
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.right) || [])
     ];
-    let gnatCount = 0;
-    attachedEntries.forEach((entry) => {
-        if (!entry || !entry.card) return;
-        const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        if (entryId === 'gnat') gnatCount += 1;
-    });
+    const gnats = attachedEntries.filter(entry =>
+        entry?.card && helpers.normalizeName(entry.card.cardId || entry.card.name) === 'gnat'
+    ).map(entry => entry.card);
+    const gnatCount = gnats.length;
 
     const points = gnatCount * engine.topBottomCasesVp.tree_frog;
     return {
         points,
         calculated: true,
         detail: `Top/Bottom case: Tree Frog gnat(${gnatCount}) x 5 = ${points}`,
-        ruleType: 'TOP_BOTTOM_CASE'
+        ruleType: 'TOP_BOTTOM_CASE',
+        contributors: gnats,
     };
 };

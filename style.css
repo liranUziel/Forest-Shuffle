@@ -95,7 +95,23 @@ h1 {
     object-position: center;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
-
+.section-btn{
+    background-color: rgba(148, 42, 235, 0.82);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+.section-btn:hover { 
+    background-color: #6d28d9; 
+    transform: translateY(-1px); 
+}
 .danger-btn {
     background-color: rgba(214, 40, 40, 0.82);
     color: white;
@@ -109,24 +125,54 @@ h1 {
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
+.info-btn {
+    background-color: rgba(204, 204, 204, 0.82);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.info-btn:hover { 
+    background-color: #7a7a7a; 
+    transform: translateY(-1px); 
+}
+
+
+
 .danger-btn:hover { 
     background-color: #d62828; 
     transform: translateY(-1px); 
 }
 
 #total-score-display {
-    font-size: 1.12rem; 
-    font-weight: bold; 
+    font-size: 1.12rem;
+    font-weight: bold;
     background: linear-gradient(135deg, rgba(255,255,255,0.17), rgba(255,255,255,0.07));
     backdrop-filter: blur(5px);
     border: 1px solid var(--border-color);
-    padding: 8px 12px; 
-    border-radius: 10px; 
+    padding: 8px 12px;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.score-icon {
+    height: 1.2em;
+    width: auto;
+    vertical-align: middle;
 }
 
 .cave-controls { display: flex; align-items: center; background: #34495e; padding: 5px; border-radius: 20px; gap: 8px; }
+.cave-card-img { height: 40px; width: auto; border-radius: 4px; }
 .cave-badge { font-weight: bold; font-size: 16px; min-width: 70px; text-align: center; }
 .cave-btn { border: none; color: white; border-radius: 50%; height: 30px; cursor: pointer; font-weight: bold; font-size: 12px; display: flex; align-items: center; justify-content: center; padding: 0 8px; margin: 0 2px;}
 .cave-btn.minus { background: #e74c3c; }
@@ -203,6 +249,88 @@ h1 {
 .score-status.ok { background: rgba(111, 207, 151, 0.22); color: #a7f3c7; }
 .score-status.missing { background: rgba(235, 87, 87, 0.22); color: #ffc7c7; }
 .score-empty { opacity: 0.8; padding: 6px 0; }
+
+.score-view-toggle { display: flex; gap: 6px; margin-left: 10px; }
+.view-mode-btn {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.view-mode-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.view-mode-btn.active { background: rgba(148, 42, 235, 0.65); border-color: rgba(255, 255, 255, 0.4); }
+
+.score-row-clickable { cursor: pointer; transition: background 0.15s ease; }
+.score-row-clickable:hover { background: rgba(255, 255, 255, 0.14); }
+.score-row-hint { opacity: 0.75; font-size: 0.85em; }
+
+/* Contributor popup grid */
+.contributor-detail { opacity: 0.85; font-size: 0.85rem; margin: 4px 0 12px; }
+.contributor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+    gap: 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+.contributor-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+}
+.contributor-chip img { width: 100%; max-width: 64px; aspect-ratio: 300 / 467; object-fit: cover; border-radius: 4px; }
+.contributor-chip span { font-size: 0.68rem; line-height: 1.1; }
+
+/* --- Scoring info popup (card hover/click — score role + live demo) --- */
+
+.scoring-info-content { max-width: 560px; }
+
+.scoring-info-body { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+.scoring-info-image { width: 90px; flex-shrink: 0; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+.scoring-info-role { font-size: 0.88rem; line-height: 1.4; }
+.scoring-info-role p { margin: 0 0 8px; }
+.scoring-info-role u { text-decoration: underline; }
+.rule-inline-icon { vertical-align: middle; margin: 0 2px; }
+
+.scoring-info-demo { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 12px; }
+
+.demo-flat-case { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.demo-points { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 1.1rem; }
+.demo-points img.score-icon { height: 1.1em; }
+
+.demo-cases { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.demo-case {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+.demo-case.is-active   { background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.4); }
+.demo-case.is-inactive  { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); }
+.demo-case-icon { font-size: 1.3rem; font-weight: 900; }
+.demo-case.is-active .demo-case-icon  { color: #16a34a; }
+.demo-case.is-inactive .demo-case-icon { color: #dc2626; }
+.demo-case-cards { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+.demo-case-cards img { border-radius: 4px; aspect-ratio: 300 / 467; object-fit: cover; }
+.demo-case-result { font-weight: 700; }
+.demo-case-detail { font-size: 0.72rem; opacity: 0.75; }
+
+.demo-set-species { gap: 18px; }
+.demo-set-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 
 .tree-cluster {
     display: grid;
@@ -624,4 +752,286 @@ h1 {
     .image-card[data-slot="right"] .side-stack-layer-wrap { transform: translateX(calc(var(--stack-index, 1) * 14px)); }
     .image-card[data-slot="left"] .side-stack-layer-wrap { transform: translateX(calc(var(--stack-index, 1) * -14px)); }
     .european-hare-add-btn { font-size: 0.6rem; min-width: 36px; padding: 0 2px; }
+}
+.color-filter-cb{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.symbol-filter-cb{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.symbol-filters{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.container{
+    background-color: rgba(38, 121, 52, 0.8);
+    border-radius: 15px;
+    position: absolute;       /* Removes the element from normal document layout flow */
+    top: 50%;                 /* Moves top edge to the middle of the screen */
+    left: 50%;                /* Moves left edge to the middle of the screen */
+    transform: translate(-50%, -50%); /* Offsets the element by its own half-width and half-height */
+}
+.hero-section{
+    padding: 20px;
+    text-align: center;
+    font-family: 'Monaco', monospace;
+    
+}
+.hero-description{
+    font-family: 'Monaco', monospace;
+    text-align: left;
+}
+
+/* --- Rules page: book-style PDF viewer ---
+ * Native design resolution is fixed at 440 x 652 (book-frame). All inner
+ * elements are positioned as percentages of that box so a custom PNG border
+ * (or button/indicator art) designed at 440x652 stays aligned at any
+ * responsive scale. See the design spec comment above each element.
+ */
+
+.rules-viewer {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+.rules-body {
+    position: relative;
+    min-height: 652px;
+}
+
+.card-list-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 230px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px;
+    max-height: 652px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.card-list-title { margin: 0 0 8px; font-size: 1rem; font-family: 'Monaco', monospace; }
+
+.card-list-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    margin-bottom: 6px;
+}
+
+.card-list-hint { font-size: 0.7rem; opacity: 0.7; margin: 0 0 8px; }
+
+.card-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.card-list-item:hover { background: rgba(255, 255, 255, 0.14); }
+.card-list-item img { width: 28px; height: auto; border-radius: 3px; aspect-ratio: 300 / 467; object-fit: cover; flex-shrink: 0; }
+.card-list-item span { font-size: 0.78rem; }
+
+@media (max-width: 900px) {
+    .rules-body { position: static; display: flex; flex-direction: column; align-items: center; min-height: 0; }
+    .card-list-panel { position: static; width: 100%; max-width: 440px; max-height: 220px; margin-bottom: 16px; }
+}
+
+.rules-header {
+    max-width: 460px;
+    padding: 6px 12px;
+}
+
+.rules-header-spacer { width: 70px; } /* balances the Home button so the title stays centered */
+
+.rules-title {
+    font-family: 'Monaco', monospace;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Frame: 440 x 652 native. Window (book-stage) sits at (20,20) size 400x568,
+ * leaving a 20px border on top/left/right and a 64px control strip at the
+ * bottom. A custom border PNG should be exactly 440x652 with a transparent
+ * cut-out at x=20 y=20 w=400 h=568. */
+.book-frame {
+    position: relative;
+    aspect-ratio: 440 / 652;
+    height: min(652px, 70vh);
+    width: auto;
+    max-width: 92vw;
+    margin: 0 auto;
+    background: linear-gradient(160deg, #1e3a8a, #2563eb 45%, #1e3a8a);
+    border: 6px solid #1e40af;
+    border-radius: 14px;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.35), 0 18px 40px rgba(0, 0, 0, 0.55);
+    perspective: 2200px;
+}
+
+/* Overlay slot for a custom border PNG (440x652, transparent window cut-out).
+ * Hidden automatically (via onerror) until that file actually exists. */
+.book-frame-border {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.book-stage {
+    position: absolute;
+    left: 4.545%;   /* 20/440 */
+    top: 3.067%;    /* 20/652 */
+    width: 90.909%; /* 400/440 */
+    height: 87.117%;/* 568/652 */
+}
+
+.book-page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    line-height: 0;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+#pdf-canvas { display: block; width: 100%; height: auto; }
+
+.flip-overlay {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    line-height: 0;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 4px 0 18px rgba(0, 0, 0, 0.35);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.flip-overlay canvas { display: block; width: 100%; height: auto; }
+
+.flip-overlay.flip-next { transform-origin: left center; }
+.flip-overlay.flip-prev { transform-origin: right center; }
+
+.flip-overlay.flip-next.flip-animate {
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.6s ease;
+    transform: rotateY(-150deg);
+    opacity: 0.25;
+}
+
+.flip-overlay.flip-prev.flip-animate {
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.6s ease;
+    transform: rotateY(150deg);
+    opacity: 0.25;
+}
+
+.book-empty-state {
+    display: none;
+    padding: 20% 10%;
+    text-align: center;
+    color: #1e3a8a;
+    background: #eef2ff;
+    border-radius: 6px;
+    font-family: 'Monaco', monospace;
+    font-size: 0.78rem;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.book-empty-state code {
+    background: rgba(30, 58, 138, 0.12);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.book-frame.is-empty .book-page,
+.book-frame.is-empty .flip-overlay {
+    display: none;
+}
+
+.book-frame.is-empty .book-empty-state {
+    display: block;
+}
+
+/* Nav buttons: 44x44 native (10% of frame width), top edge at 598px (91.72%
+ * of frame height), inset 14px (3.18% of frame width) from the side edge.
+ * A custom PNG button should be ~44x44 at native resolution. */
+.page-nav-btn {
+    position: absolute;
+    top: 91.718%;
+    width: 10%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    color: #1e3a8a;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.2s, transform 0.2s;
+    z-index: 6;
+}
+
+.page-nav-btn:hover:not(:disabled) { background: #fff; transform: translateY(-2px); }
+.page-nav-btn:disabled { opacity: 0.35; cursor: default; }
+.page-nav-btn.nav-left  { left: 3.182%; }
+.page-nav-btn.nav-right { right: 3.182%; }
+
+/* Page indicator: centered at (220, 620) native — i.e. centered horizontally,
+ * vertical center at 95.09% of frame height. */
+.page-indicator {
+    position: absolute;
+    left: 50%;
+    top: 95.092%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    z-index: 6;
 }

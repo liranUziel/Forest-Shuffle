@@ -66,7 +66,7 @@ export class AutomaDeck {
 
             this._button = document.createElement('button');
             this._button.className = 'automa-open-btn';
-            this._button.textContent = 'Automa Deck';
+            this._button.textContent = 'Solo Automa Deck';
             this._button.onclick = () => this._open();
             container.appendChild(this._button);
 

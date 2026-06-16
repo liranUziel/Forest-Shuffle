@@ -13,18 +13,17 @@ export const scoreHedgehog = (cardInput, boardObject, currentTree, helpers, engi
         'peacock_butterfly',
         'purple_emperor'
     ]);
-    let hedgehogButterflyCount = 0;
-    attachedEntries.forEach((entry) => {
-        if (!entry || !entry.card) return;
-        const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        if (hedgehogButterflyIds.has(entryId)) hedgehogButterflyCount += 1;
-    });
+    const butterflies = attachedEntries.filter(entry =>
+        entry?.card && hedgehogButterflyIds.has(helpers.normalizeName(entry.card.cardId || entry.card.name))
+    ).map(entry => entry.card);
+    const hedgehogButterflyCount = butterflies.length;
 
     const points = hedgehogButterflyCount * engine.topBottomCasesVp.hedgehog;
     return {
         points,
         calculated: true,
         detail: `Top/Bottom case: Hedgehog butterflies(${hedgehogButterflyCount}) x 2 = ${points}`,
-        ruleType: 'TOP_BOTTOM_CASE'
+        ruleType: 'TOP_BOTTOM_CASE',
+        contributors: butterflies,
     };
 };

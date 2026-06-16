@@ -1,0 +1,2274 @@
+{
+  "deck": [
+    {
+      "name": "european_hare-european_badger",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-european_badger",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_hare-greater_horse_shoe_bat",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-greater_horse_shoe_bat",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Bat"
+      ],
+      "Colors": [
+        "Brown",
+        "Yellow"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_hare-red_fox",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-red_fox",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "raccoon-european_hare",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "raccoon-european_hare",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Silver",
+        "Red"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "wild_boar-european_hare",
+      "x": 1200,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "wild_boar-european_hare",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Red",
+        "Blue"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "brown_long_eared_bat-european_hare",
+      "x": 1500,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "brown_long_eared_bat-european_hare",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Red",
+        "Yellow"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "raccoon-roe_deer",
+      "x": 1800,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "raccoon-roe_deer",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Blue",
+        "Green"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "brown_long_eared_bat-european_badger",
+      "x": 0,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "brown_long_eared_bat-european_badger",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Red",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "barbastelle_bat-wild_boar",
+      "x": 300,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "barbastelle_bat-wild_boar",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "Colors": [
+        "Orange",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "brown_bear-raccoon",
+      "x": 600,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "brown_bear-raccoon",
+      "Costs": [
+        "3",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Blue"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "beech_marten-brown_bear",
+      "x": 900,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "beech_marten-brown_bear",
+      "Costs": [
+        "1",
+        "3"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Red",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "red_deer-brown_bear",
+      "x": 1200,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "red_deer-brown_bear",
+      "Costs": [
+        "2",
+        "3"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Green"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "barbastelle_bat-beech_marten",
+      "x": 1500,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "barbastelle_bat-beech_marten",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "lynx-european_hare",
+      "x": 1800,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "lynx-european_hare",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Silver",
+        "Lime"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "wild_boar-beech_marten",
+      "x": 0,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "wild_boar-beech_marten",
+      "Costs": [
+        "2",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Lime",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_badger-gnat",
+      "x": 300,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "european_badger-gnat",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Orange",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "red_fox-violet_carpenter_bee",
+      "x": 600,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "red_fox-violet_carpenter_bee",
+      "Costs": [
+        "2",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Yellow",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "wild_boar-roe_deer",
+      "x": 900,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "wild_boar-roe_deer",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Red",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "fallow_deer-wild_boar",
+      "x": 1200,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "fallow_deer-wild_boar",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "fallow_deer-roe_deer",
+      "x": 1500,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "fallow_deer-roe_deer",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Yellow",
+        "Lime"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "red_deer-fallow_deer",
+      "x": 1800,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "red_deer-fallow_deer",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Blue",
+        "Red"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "violet_carpenter_bee-lynx",
+      "x": 0,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "violet_carpenter_bee-lynx",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Insect"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Silver",
+        "Green"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_fat_dormouse-barbastelle_bat",
+      "x": 300,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "european_fat_dormouse-barbastelle_bat",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Bat"
+      ],
+      "Colors": [
+        "Green",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "greater_horse_shoe_bat-european_fat_dormouse",
+      "x": 600,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "greater_horse_shoe_bat-european_fat_dormouse",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Green",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "red_fox-wolf",
+      "x": 900,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "red_fox-wolf",
+      "Costs": [
+        "2",
+        "3"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Blue"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_fat_dormouse-brown_long_eared_bat",
+      "x": 1200,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "european_fat_dormouse-brown_long_eared_bat",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Bat"
+      ],
+      "Colors": [
+        "Blue",
+        "Green"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "bechsteins_bat-european_fat_dormouse",
+      "x": 1500,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "bechsteins_bat-european_fat_dormouse",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Green",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "gnat-violet_carpenter_bee",
+      "x": 1800,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "gnat-violet_carpenter_bee",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Insect"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Lime",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "wolf-gnat",
+      "x": 0,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "wolf-gnat",
+      "Costs": [
+        "3",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Silver",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "roe_deer-squeaker",
+      "x": 300,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "roe_deer-squeaker",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "Colors": [
+        "Yellow",
+        "Red"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "bechsteins_bat-wolf",
+      "x": 600,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "bechsteins_bat-wolf",
+      "Costs": [
+        "1",
+        "3"
+      ],
+      "part_1_Symbols": [
+        "Bat"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Brown",
+        "Blue"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "roe_deer-lynx",
+      "x": 900,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "roe_deer-lynx",
+      "Costs": [
+        "2",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Yellow"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "beech_marten-bechsteins_bat",
+      "x": 1200,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "beech_marten-bechsteins_bat",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Bat"
+      ],
+      "Colors": [
+        "Green",
+        "Lime"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_hare-red_deer_gr-or",
+      "x": 1500,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-red_deer",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Green",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "wolf-greater_horse_shoe_bat",
+      "x": 1800,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "wolf-greater_horse_shoe_bat",
+      "Costs": [
+        "3",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Bat"
+      ],
+      "Colors": [
+        "Red",
+        "Yellow"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "squeaker-red_deer",
+      "x": 0,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "squeaker-red_deer",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Orange",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "red_fox-squeaker",
+      "x": 300,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "red_fox-squeaker",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "Colors": [
+        "Green",
+        "Brown"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "lynx-raccoon",
+      "x": 600,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "lynx-raccoon",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Silver",
+        "Lime"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "squeaker-lynx",
+      "x": 900,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "squeaker-lynx",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Cloven-hoofed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Brown",
+        "Blue"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_hare-beech_marten",
+      "x": 1200,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-beech_marten",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Lime",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "lynx-red_fox",
+      "x": 1500,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "lynx-red_fox",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Orange",
+        "Silver"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_hare-red_deer_li-or",
+      "x": 1800,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "european_hare-red_deer",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Lime",
+        "Orange"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "violet_carpenter_bee-european_hare",
+      "x": 0,
+      "y": 2802,
+      "w": 300,
+      "h": 460,
+      "Name": "violet_carpenter_bee-european_hare",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Red"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "european_badger-fallow_deer",
+      "x": 300,
+      "y": 2802,
+      "w": 300,
+      "h": 460,
+      "Name": "european_badger-fallow_deer",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Cloven-hoofed-animal",
+        "Deer"
+      ],
+      "Colors": [
+        "Orange",
+        "Lime"
+      ],
+      "Layout": "Horizontal"
+    },
+    {
+      "name": "great_spotted_woodpecker-penny_bun",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "great_spotted_woodpecker-penny_bun",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Yellow",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "chaffinch-parasol_mushroom",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "chaffinch-parasol_mushroom",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Red",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "large_tortoiseshell-mole_gr-re",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "large_tortoiseshell-mole",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Green",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "camberwell_beauty-chanterelle",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "camberwell_beauty-chanterelle",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Orange",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "purple_emperor-fly_agaric",
+      "x": 1200,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "purple_emperor-fly_agaric",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Yellow",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "silver_washed_fritillary-blackberries_br-gr",
+      "x": 1500,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "silver_washed_fritillary-blackberries",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Brown",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "red_squirrel-wild_strawberries",
+      "x": 1800,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "red_squirrel-wild_strawberries",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Brown",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "bullfinch-tree_ferns",
+      "x": 0,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "bullfinch-tree_ferns",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Blue",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "tawny_owl-common_toad",
+      "x": 300,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "tawny_owl-common_toad",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Red",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "eurasian_jay-tree_ferns_or-bl",
+      "x": 600,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "eurasian_jay-tree_ferns",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Orange",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "goshawk-common_toad",
+      "x": 900,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "goshawk-common_toad",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Brown",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "bullfinch-parasol_mushroom",
+      "x": 1200,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "bullfinch-parasol_mushroom",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Silver",
+        "Orange"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "camberwell_beauty-tree_frog",
+      "x": 1500,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "camberwell_beauty-tree_frog",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Lime",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "peacock_butterfly-common_toad",
+      "x": 1800,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "peacock_butterfly-common_toad",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Yellow",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "purple_emperor-tree_frog",
+      "x": 0,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "purple_emperor-tree_frog",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Lime",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "red_squirrel-fire_salamander",
+      "x": 300,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "red_squirrel-fire_salamander",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Green",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "tawny_owl-penny_bun",
+      "x": 600,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "tawny_owl-penny_bun",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Lime",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "eurasian_jay-fly_agaric",
+      "x": 900,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "eurasian_jay-fly_agaric",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Red",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "great_spotted_woodpecker-wild_strawberries",
+      "x": 1200,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "great_spotted_woodpecker-wild_strawberries",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Silver",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "goshawk-hedgehog",
+      "x": 1500,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "goshawk-hedgehog",
+      "Costs": [
+        "2",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Orange"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "large_tortoiseshell-mole_re-br",
+      "x": 1800,
+      "y": 934,
+      "w": 300,
+      "h": 467,
+      "Name": "large_tortoiseshell-mole",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Red",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "peacock_butterfly-fireflies",
+      "x": 0,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "peacock_butterfly-fireflies",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Orange",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "peacock_butterfly-chanterelle",
+      "x": 300,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "peacock_butterfly-chanterelle",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Mushroom"
+      ],
+      "Colors": [
+        "Brown",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "silver_washed_fritillary-moss",
+      "x": 600,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "silver_washed_fritillary-moss",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Green",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "eurasian_jay-fireflies",
+      "x": 900,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "eurasian_jay-fireflies",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Lime",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "chaffinch-common_toad",
+      "x": 1200,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "chaffinch-common_toad",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Green",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "red_squirrel-fireflies",
+      "x": 1500,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "red_squirrel-fireflies",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Orange",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "red_squirrel-common_toad",
+      "x": 1800,
+      "y": 1401,
+      "w": 300,
+      "h": 467,
+      "Name": "red_squirrel-common_toad",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Pawed-animal"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Silver",
+        "Orange"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "peacock_butterfly-hedgehog",
+      "x": 0,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "peacock_butterfly-hedgehog",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Blue",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "bullfinch-hedgehog",
+      "x": 300,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "bullfinch-hedgehog",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Pawed-animal"
+      ],
+      "Colors": [
+        "Silver",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "large_tortoiseshell-blackberries",
+      "x": 600,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "large_tortoiseshell-blackberries",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Blue",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "camberwell_beauty-fireflies",
+      "x": 900,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "camberwell_beauty-fireflies",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Red",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "purple_emperor-moss",
+      "x": 1200,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "purple_emperor-moss",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Orange",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "silver_washed_fritillary-blackberries_br-bl",
+      "x": 1500,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "silver_washed_fritillary-blackberries",
+      "Costs": [
+        "0",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Brown",
+        "Blue"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "tawny_owl-wild_strawberries",
+      "x": 1800,
+      "y": 1868,
+      "w": 300,
+      "h": 467,
+      "Name": "tawny_owl-wild_strawberries",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Green",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "eurasian_jay-tree_ferns_li-or",
+      "x": 0,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "eurasian_jay-tree_ferns",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Lime",
+        "Orange"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "great_spotted_woodpecker-common_toad",
+      "x": 300,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "great_spotted_woodpecker-common_toad",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Yellow",
+        "Brown"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "goshawk-wood_ant",
+      "x": 600,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "goshawk-wood_ant",
+      "Costs": [
+        "2",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Blue",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "chaffinch-stag_beetle",
+      "x": 900,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "chaffinch-stag_beetle",
+      "Costs": [
+        "1",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Red",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "bullfinch-tree_frog",
+      "x": 1200,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "bullfinch-tree_frog",
+      "Costs": [
+        "1",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Silver",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "large_tortoiseshell-fire_salamander",
+      "x": 1500,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "large_tortoiseshell-fire_salamander",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Blue",
+        "Silver"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "camberwell_beauty-pond_turtle",
+      "x": 1800,
+      "y": 2335,
+      "w": 300,
+      "h": 467,
+      "Name": "camberwell_beauty-pond_turtle",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Red",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "purple_emperor-pond_turtle",
+      "x": 0,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "purple_emperor-pond_turtle",
+      "Costs": [
+        "0",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Orange",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "silver_washed_fritillary-fire_salamander",
+      "x": 300,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "silver_washed_fritillary-fire_salamander",
+      "Costs": [
+        "0",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Insect",
+        "Butterfly"
+      ],
+      "part_2_Symbols": [
+        "Amphibian"
+      ],
+      "Colors": [
+        "Brown",
+        "Orange"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "chaffinch-wood_ant",
+      "x": 600,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "chaffinch-wood_ant",
+      "Costs": [
+        "2",
+        "2"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Green",
+        "Red"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "tawny_owl-stag_beetle",
+      "x": 900,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "tawny_owl-stag_beetle",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Lime",
+        "Green"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "great_spotted_woodpecker-wood_ant",
+      "x": 1200,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "great_spotted_woodpecker-wood_ant",
+      "Costs": [
+        "1",
+        "1"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Insect"
+      ],
+      "Colors": [
+        "Yellow",
+        "Lime"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "goshawk-moss",
+      "x": 1500,
+      "y": 2802,
+      "w": 300,
+      "h": 467,
+      "Name": "goshawk-moss",
+      "Costs": [
+        "2",
+        "0"
+      ],
+      "part_1_Symbols": [
+        "Bird"
+      ],
+      "part_2_Symbols": [
+        "Plant"
+      ],
+      "Colors": [
+        "Silver",
+        "Yellow"
+      ],
+      "Layout": "Vertical"
+    },
+    {
+      "name": "linden",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "linden",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "oak",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "oak",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "silver_fir",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "silver_fir",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "birch",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "birch",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "beech",
+      "x": 1200,
+      "y": 0,
+      "w": 300,
+      "h": 467,
+      "Name": "beech",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "sycamore",
+      "x": 0,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "sycamore",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "douglas_fir",
+      "x": 300,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "douglas_fir",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    },
+    {
+      "name": "horse_chestnut",
+      "x": 600,
+      "y": 467,
+      "w": 300,
+      "h": 467,
+      "Name": "horse_chestnut",
+      "Costs": [
+        "0"
+      ],
+      "part_1_Symbols": [],
+      "part_2_Symbols": [],
+      "Colors": [],
+      "Layout": "Tree"
+    }
+  ]
+}

@@ -5,17 +5,19 @@ export const scoreWolf = (cardInput, boardObject, currentTree, helpers, engine) 
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.left) || []),
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.right) || [])
     ];
-    const deerCount = sideEntries.reduce((acc, entry) => {
-        if (!entry || !entry.card) return acc;
+    const deer = sideEntries.filter(entry => {
+        if (!entry?.card) return false;
         const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        return acc + (entryId === 'roe_deer' || entryId === 'red_deer' || entryId === 'fallow_deer' ? 1 : 0);
-    }, 0);
+        return entryId === 'roe_deer' || entryId === 'red_deer' || entryId === 'fallow_deer';
+    }).map(entry => entry.card);
+    const deerCount = deer.length;
     const points = deerCount * 5;
 
     return {
         points,
         calculated: true,
         detail: `Side case: Wolf deer(${deerCount}) x 5 = ${points}`,
-        ruleType: 'SIDE_CASE'
+        ruleType: 'SIDE_CASE',
+        contributors: deer,
     };
 };

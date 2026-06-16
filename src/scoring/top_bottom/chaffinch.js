@@ -8,6 +8,7 @@ export const scoreChaffinch = (cardInput, boardObject, currentTree, helpers, eng
         detail: active
             ? 'Top/Bottom case: Chaffinch on Beech = 5'
             : `Top/Bottom case: Chaffinch inactive (${speciesId || 'no tree'})`,
-        ruleType: 'TOP_BOTTOM_CASE'
+        ruleType: 'TOP_BOTTOM_CASE',
+        contributors: active ? [currentTree.species] : [],
     };
 };

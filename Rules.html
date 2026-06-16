@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forest Shuffle — Rules</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="rules-viewer">
+        <header class="rules-header">
+            <a href="./index.html" class="section-btn">&larr; Home</a>
+            <h1 class="rules-title">Rules</h1>
+            <span class="rules-header-spacer"></span>
+        </header>
+
+        <div class="rules-body">
+            <aside class="card-list-panel">
+                <h2 class="card-list-title">All Cards</h2>
+                <input type="text" id="card-list-search" class="card-list-search" placeholder="Search cards...">
+                <p class="card-list-hint">Click a card to see how it scores.</p>
+                <ul class="card-list" id="card-list"></ul>
+            </aside>
+
+            <div class="book-frame is-empty" id="book-frame">
+                <div class="book-stage">
+                    <div class="book-page" id="book-page">
+                        <canvas id="pdf-canvas"></canvas>
+                    </div>
+                    <div class="flip-overlay" id="flip-overlay">
+                        <canvas id="flip-canvas"></canvas>
+                    </div>
+                    <div class="book-empty-state" id="book-empty-state">
+                        <p>No rules PDF found yet.</p>
+                        <p>Add your file at <code>Assetes/Files/Rules/BaseGameRules(Eng).pdf</code> and reload this page.</p>
+                    </div>
+                </div>
+                <img class="book-frame-border" src="Assetes/Images/UI/book-border.png" alt="" onerror="this.style.display='none'">
+                <button class="page-nav-btn nav-left" id="prev-page-btn" aria-label="Previous page" disabled>&#10094;</button>
+                <button class="page-nav-btn nav-right" id="next-page-btn" aria-label="Next page" disabled>&#10095;</button>
+                <div class="page-indicator" id="page-indicator"></div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./src/rules/RulesViewer.js"></script>
+    <script type="module" src="./src/rules/CardList.js"></script>
+</body>
+</html>

@@ -6,16 +6,16 @@ export const scoreRedFox = (cardInput, boardObject, currentTree, helpers) => {
         ...((boardObject && boardObject.bySlot && boardObject.bySlot.right) || [])
     ];
     
-    const europeanHareCount = sideEntries.reduce((acc, entry) => {
-        if (!entry || !entry.card) return acc;
-        const entryId = helpers.normalizeName(entry.card.cardId || entry.card.name);
-        return acc + (entryId === 'european_hare' ? 1 : 0);
-    }, 0);
+    const hares = sideEntries.filter(entry =>
+        entry?.card && helpers.normalizeName(entry.card.cardId || entry.card.name) === 'european_hare'
+    ).map(entry => entry.card);
+    const europeanHareCount = hares.length;
 
     return {
         points: europeanHareCount * 2,
         calculated: true,
         detail: `Side case: Red Fox european_hare(${europeanHareCount}) x 2 = ${europeanHareCount * 2}`,
-        ruleType: 'SIDE_CASE'
+        ruleType: 'SIDE_CASE',
+        contributors: hares,
     };
 };

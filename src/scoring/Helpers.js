@@ -17,7 +17,11 @@ export const Helpers = {
             sliver_washed_fritllary: 'silver_washed_fritillary',
             large_trotiseshell: 'large_tortoiseshell',
             large_trotoiseshell: 'large_tortoiseshell',
-            large_tortoieseshell: 'large_tortoiseshell'
+            large_tortoieseshell: 'large_tortoiseshell',
+            bechsteins_bat: 'bechstein_s_bat',
+            great_spotted_woodpeacker: 'great_spotted_woodpecker',
+            reccoon: 'raccoon',
+            brown_beer: 'brown_bear'
         };
 
         return aliases[normalized] || normalized;
